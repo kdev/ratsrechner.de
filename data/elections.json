@@ -1,0 +1,20 @@
+{
+    "2025": {
+      "election-name": "Kommunalwahl 2025",
+      "election-date": "2025-09-14",
+      "seat-allocation": {
+        "key": "rock",
+        "name": "Rock"
+      },
+      "data-source": "/data/2025/election.json"
+    },
+    "2020": {
+      "election-name": "Kommunalwahl 2020",
+      "election-date": "2020-09-13",
+      "seat-allocation": {
+        "key": "sainte-lague",
+        "name": "Sainte-Laguë"
+      },
+      "data-source": "/data/2020/election.json"
+    }
+  }
