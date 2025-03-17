@@ -1,0 +1,740 @@
+{
+    "cuncil-seats": 90,
+    "districts": [
+      {
+        "number": 1,
+        "name": "Innenstadt 1"
+      },
+      {
+        "number": 2,
+        "name": "Innenstadt 2"
+      },
+      {
+        "number": 3,
+        "name": "Innenstadt 3"
+      },
+      {
+        "number": 4,
+        "name": "Innenstadt 4"
+      },
+      {
+        "number": 5,
+        "name": "Innenstadt 5"
+      },
+      {
+        "number": 6,
+        "name": "Innenstadt 6"
+      },
+      {
+        "number": 7,
+        "name": "Rodenkirchen 1"
+      },
+      {
+        "number": 8,
+        "name": "Rodenkirchen 2"
+      },
+      {
+        "number": 9,
+        "name": "Rodenkirchen 3"
+      },
+      {
+        "number": 10,
+        "name": "Rodenkirchen 4"
+      },
+      {
+        "number": 11,
+        "name": "Rodenkirchen 5"
+      },
+      {
+        "number": 12,
+        "name": "Lindenthal 1"
+      },
+      {
+        "number": 13,
+        "name": "Lindenthal 2"
+      },
+      {
+        "number": 14,
+        "name": "Lindenthal 3"
+      },
+      {
+        "number": 15,
+        "name": "Lindenthal 4"
+      },
+      {
+        "number": 16,
+        "name": "Lindenthal 5"
+      },
+      {
+        "number": 17,
+        "name": "Lindenthal 6"
+      },
+      {
+        "number": 18,
+        "name": "Ehrenfeld 1"
+      },
+      {
+        "number": 19,
+        "name": "Ehrenfeld 2"
+      },
+      {
+        "number": 20,
+        "name": "Ehrenfeld 3"
+      },
+      {
+        "number": 21,
+        "name": "Ehrenfeld 4"
+      },
+      {
+        "number": 22,
+        "name": "Ehrenfeld 5"
+      },
+      {
+        "number": 23,
+        "name": "Nippes 1"
+      },
+      {
+        "number": 24,
+        "name": "Nippes 2"
+      },
+      {
+        "number": 25,
+        "name": "Nippes 3"
+      },
+      {
+        "number": 26,
+        "name": "Nippes 4"
+      },
+      {
+        "number": 27,
+        "name": "Nippes 5"
+      },
+      {
+        "number": 28,
+        "name": "Chorweiler 1"
+      },
+      {
+        "number": 29,
+        "name": "Chorweiler 2"
+      },
+      {
+        "number": 30,
+        "name": "Chorweiler 3"
+      },
+      {
+        "number": 31,
+        "name": "Porz 1"
+      },
+      {
+        "number": 32,
+        "name": "Porz 2"
+      },
+      {
+        "number": 33,
+        "name": "Porz 3"
+      },
+      {
+        "number": 34,
+        "name": "Porz 4"
+      },
+      {
+        "number": 35,
+        "name": "Porz 5"
+      },
+      {
+        "number": 36,
+        "name": "Kalk 1"
+      },
+      {
+        "number": 37,
+        "name": "Kalk 2"
+      },
+      {
+        "number": 38,
+        "name": "Kalk 3"
+      },
+      {
+        "number": 39,
+        "name": "Kalk 4"
+      },
+      {
+        "number": 40,
+        "name": "Mülheim 1"
+      },
+      {
+        "number": 41,
+        "name": "Mülheim 2"
+      },
+      {
+        "number": 42,
+        "name": "Mülheim 3"
+      },
+      {
+        "number": 43,
+        "name": "Mülheim 4"
+      },
+      {
+        "number": 44,
+        "name": "Mülheim 5"
+      },
+      {
+        "number": 45,
+        "name": "Mülheim 6"
+      }
+    ],
+    "results": {},
+    "parties": [
+      {
+        "identifier": "cdu",
+        "short": "CDU",
+        "name": "Christlich Demokratische Union Deutschlands",
+        "colorcode": "#191919"
+      },
+      {
+        "identifier": "spd",
+        "short": "SPD",
+        "name": "Sozialdemokratische Partei Deutschlands",
+        "colorcode": "#e2001a"
+      },
+      {
+        "identifier": "greens",
+        "short": "GRÜNE",
+        "name": "BÜNDNIS 90/DIE GRÜNEN",
+        "colorcode": "#1fa12d"
+      },
+      {
+        "identifier": "fdp",
+        "short": "FDP",
+        "name": "Freie Demokratische Partei",
+        "colorcode": "#feed01"
+      },
+      {
+        "identifier": "left",
+        "short": "LINKE",
+        "name": "DIE LINKE",
+        "colorcode": "#b52269"
+      },
+      {
+        "identifier": "afd",
+        "short": "AfD",
+        "name": "Alternative für Deutschland",
+        "colorcode": "#009ee0"
+      },
+      {
+        "identifier": "volt",
+        "short": "Volt",
+        "name": "Volt Deutschland",
+        "colorcode": "#502379"
+      },
+      {
+        "identifier": "the-party",
+        "short": "DIE PARTEI",
+        "name": "Partei für Arbeit, Rechtsstaat, Tierschutz, Elitenförderung und basisdemokratische Initiative",
+        "colorcode": "#981436"
+      },
+      {
+        "identifier": "klima",
+        "short": "KLIMA FREUNDE",
+        "name": "KLIMA FREUNDE",
+        "colorcode": "#82bc00"
+      },
+      {
+        "identifier": "gut",
+        "short": "GUT",
+        "name": "GUT Köln",
+        "colorcode": "#ff9900"
+      },
+      {
+        "identifier": "fwk",
+        "short": "FWK",
+        "name": "Freie Wähler Köln",
+        "colorcode": "#0066cc"
+      },
+      {
+        "identifier": "oedp",
+        "short": "ÖDP",
+        "name": "Ökologisch-Demokratische Partei",
+        "colorcode": "#f36717"
+      }
+    ],
+    "poll-results": {
+      "cdu": 22,
+      "spd": 22,
+      "greens": 29,
+      "fdp": 5,
+      "left": 6,
+      "afd": 4,
+      "volt": 5,
+      "the-party": 2,
+      "klima": 2,
+      "gut": 2,
+      "fwk": 1,
+      "oedp": 0
+    },
+    "past-district-results": {
+      "1": {
+        "cdu": 14.36,
+        "spd": 17.75,
+        "greens": 34.78,
+        "fdp": 5.11,
+        "left": 8.81,
+        "volt": 7.7,
+        "others": 11.49
+      },
+      "2": {
+        "cdu": 11.45,
+        "spd": 18.8,
+        "greens": 34.6,
+        "fdp": 4.91,
+        "left": 8.37,
+        "volt": 11.2,
+        "others": 10.69
+      },
+      "3": {
+        "cdu": 12.4,
+        "spd": 15.7,
+        "greens": 38.66,
+        "fdp": 5.65,
+        "left": 7.03,
+        "volt": 8.69,
+        "others": 11.89
+      },
+      "4": {
+        "cdu": 16.13,
+        "spd": 15.02,
+        "greens": 37.28,
+        "fdp": 6.03,
+        "left": 6.95,
+        "volt": 8.42,
+        "others": 10.17
+      },
+      "5": {
+        "cdu": 14.16,
+        "spd": 14.34,
+        "greens": 36.8,
+        "fdp": 5.15,
+        "left": 9.2,
+        "volt": 7.51,
+        "others": 12.85
+      },
+      "6": {
+        "cdu": 18.96,
+        "spd": 17.98,
+        "greens": 33.44,
+        "fdp": 4.56,
+        "left": 7.62,
+        "volt": 6.45,
+        "others": 10.99
+      },
+      "7": {
+        "cdu": 17.62,
+        "spd": 21.2,
+        "greens": 32.22,
+        "fdp": 6.38,
+        "left": 5.94,
+        "volt": 5.68,
+        "others": 10.96
+      },
+      "8": {
+        "cdu": 32.75,
+        "spd": 18.03,
+        "greens": 24.32,
+        "fdp": 8.53,
+        "left": 3.64,
+        "volt": 3.7,
+        "others": 9.04
+      },
+      "9": {
+        "cdu": 29.08,
+        "spd": 17.38,
+        "greens": 30.42,
+        "fdp": 7.79,
+        "left": 3.61,
+        "volt": 2.5,
+        "others": 9.22
+      },
+      "10": {
+        "cdu": 33.11,
+        "spd": 25.19,
+        "greens": 17.28,
+        "fdp": 7.28,
+        "left": 3.42,
+        "volt": 2.18,
+        "others": 11.53
+      },
+      "11": {
+        "cdu": 16.05,
+        "spd": 23.04,
+        "greens": 30.22,
+        "fdp": 4.77,
+        "left": 7.66,
+        "volt": 5.36,
+        "others": 12.9
+      },
+      "12": {
+        "cdu": 12.22,
+        "spd": 16.2,
+        "greens": 40.6,
+        "fdp": 5.06,
+        "left": 7.68,
+        "volt": 8,
+        "others": 10.25
+      },
+      "13": {
+        "cdu": 18.06,
+        "spd": 17.79,
+        "greens": 39.84,
+        "fdp": 3.68,
+        "left": 5.06,
+        "volt": 5.96,
+        "others": 9.62
+      },
+      "14": {
+        "cdu": 25.07,
+        "spd": 13.04,
+        "greens": 34.96,
+        "fdp": 6.65,
+        "left": 4.57,
+        "volt": 7.15,
+        "others": 8.55
+      },
+      "15": {
+        "cdu": 21.95,
+        "spd": 12.36,
+        "greens": 38.17,
+        "fdp": 8.43,
+        "left": 4.33,
+        "volt": 5.58,
+        "others": 9.18
+      },
+      "16": {
+        "cdu": 35.51,
+        "spd": 13.15,
+        "greens": 27.5,
+        "fdp": 10.27,
+        "left": 2.63,
+        "volt": 3.27,
+        "others": 7.65
+      },
+      "17": {
+        "cdu": 35.72,
+        "spd": 19.03,
+        "greens": 23.75,
+        "fdp": 6.43,
+        "left": 3.7,
+        "volt": 2.7,
+        "others": 8.67
+      },
+      "18": {
+        "cdu": 8.71,
+        "spd": 14.34,
+        "greens": 37.87,
+        "fdp": 3.41,
+        "left": 10.47,
+        "volt": 8.92,
+        "others": 16.26
+      },
+      "19": {
+        "cdu": 10.52,
+        "spd": 13.32,
+        "greens": 40.51,
+        "fdp": 2.6,
+        "left": 11.89,
+        "volt": 7.66,
+        "others": 13.49
+      },
+      "20": {
+        "cdu": 21.62,
+        "spd": 31.97,
+        "greens": 19.94,
+        "fdp": 3.68,
+        "left": 5.3,
+        "volt": 2.38,
+        "others": 15.11
+      },
+      "21": {
+        "cdu": 16.83,
+        "spd": 18.01,
+        "greens": 34.19,
+        "fdp": 2.9,
+        "left": 9.32,
+        "volt": 6.71,
+        "others": 12.04
+      },
+      "22": {
+        "cdu": 15.63,
+        "spd": 24.05,
+        "greens": 29.21,
+        "fdp": 4.37,
+        "left": 7.73,
+        "volt": 5.08,
+        "others": 13.95
+      },
+      "23": {
+        "cdu": 12.73,
+        "spd": 24.06,
+        "greens": 33.73,
+        "fdp": 5.56,
+        "left": 7.04,
+        "volt": 5.84,
+        "others": 11.06
+      },
+      "24": {
+        "cdu": 10.17,
+        "spd": 18.54,
+        "greens": 38.42,
+        "fdp": 3.5,
+        "left": 9.38,
+        "volt": 7.48,
+        "others": 12.49
+      },
+      "25": {
+        "cdu": 16.45,
+        "spd": 24.44,
+        "greens": 28.77,
+        "fdp": 3.64,
+        "left": 7.34,
+        "volt": 5.1,
+        "others": 14.26
+      },
+      "26": {
+        "cdu": 20.54,
+        "spd": 26.44,
+        "greens": 22.85,
+        "fdp": 6.86,
+        "left": 6.73,
+        "volt": 4.1,
+        "others": 12.49
+      },
+      "27": {
+        "cdu": 29.69,
+        "spd": 23.41,
+        "greens": 23.33,
+        "fdp": 4.7,
+        "left": 4.48,
+        "volt": 3.27,
+        "others": 11.11
+      },
+      "28": {
+        "cdu": 38.56,
+        "spd": 22.5,
+        "greens": 15.93,
+        "fdp": 4.41,
+        "left": 3.64,
+        "volt": 1.61,
+        "others": 13.36
+      },
+      "29": {
+        "cdu": 32.76,
+        "spd": 28.59,
+        "greens": 14.75,
+        "fdp": 4.36,
+        "left": 5.53,
+        "volt": 0.97,
+        "others": 13.04
+      },
+      "30": {
+        "cdu": 29.49,
+        "spd": 30.11,
+        "greens": 15.97,
+        "fdp": 5.92,
+        "left": 4.44,
+        "volt": 1.68,
+        "others": 12.39
+      },
+      "31": {
+        "cdu": 29.79,
+        "spd": 27.78,
+        "greens": 21.8,
+        "fdp": 4.7,
+        "left": 4.22,
+        "volt": 1.72,
+        "others": 10
+      },
+      "32": {
+        "cdu": 28.47,
+        "spd": 36.53,
+        "greens": 12.89,
+        "fdp": 4.53,
+        "left": 3.76,
+        "volt": 2,
+        "others": 11.83
+      },
+      "33": {
+        "cdu": 33.83,
+        "spd": 29.02,
+        "greens": 12.36,
+        "fdp": 6.6,
+        "left": 3.51,
+        "volt": 1.47,
+        "others": 13.22
+      },
+      "34": {
+        "cdu": 28.78,
+        "spd": 32.41,
+        "greens": 14.13,
+        "fdp": 4.04,
+        "left": 4.7,
+        "volt": 1.7,
+        "others": 14.26
+      },
+      "35": {
+        "cdu": 23.33,
+        "spd": 31.58,
+        "greens": 21.69,
+        "fdp": 5.48,
+        "left": 4.19,
+        "volt": 2.6,
+        "others": 11.13
+      },
+      "36": {
+        "cdu": 16.16,
+        "spd": 31.8,
+        "greens": 18.57,
+        "fdp": 3.1,
+        "left": 10.41,
+        "volt": 3.17,
+        "others": 16.81
+      },
+      "37": {
+        "cdu": 9.97,
+        "spd": 23.74,
+        "greens": 24.62,
+        "fdp": 3.21,
+        "left": 16.06,
+        "volt": 5.57,
+        "others": 16.83
+      },
+      "38": {
+        "cdu": 22.88,
+        "spd": 26.13,
+        "greens": 20.41,
+        "fdp": 8.4,
+        "left": 5.96,
+        "volt": 2.36,
+        "others": 13.85
+      },
+      "39": {
+        "cdu": 32.16,
+        "spd": 22.41,
+        "greens": 21.64,
+        "fdp": 5.49,
+        "left": 4.03,
+        "volt": 2.43,
+        "others": 11.85
+      },
+      "40": {
+        "cdu": 18.63,
+        "spd": 25.41,
+        "greens": 23.36,
+        "fdp": 3.63,
+        "left": 9.02,
+        "volt": 5.02,
+        "others": 14.94
+      },
+      "41": {
+        "cdu": 23.77,
+        "spd": 26.41,
+        "greens": 23.72,
+        "fdp": 3.65,
+        "left": 6.53,
+        "volt": 3.68,
+        "others": 12.23
+      },
+      "42": {
+        "cdu": 24.18,
+        "spd": 25.51,
+        "greens": 27.66,
+        "fdp": 4.02,
+        "left": 4.61,
+        "volt": 4.73,
+        "others": 9.27
+      },
+      "43": {
+        "cdu": 11.42,
+        "spd": 20.46,
+        "greens": 30.88,
+        "fdp": 2.91,
+        "left": 13.28,
+        "volt": 7.03,
+        "others": 14.03
+      },
+      "44": {
+        "cdu": 21.17,
+        "spd": 33.85,
+        "greens": 20.96,
+        "fdp": 4.63,
+        "left": 5.14,
+        "volt": 2.74,
+        "others": 11.5
+      },
+      "45": {
+        "cdu": 24.05,
+        "spd": 27.04,
+        "greens": 21.36,
+        "fdp": 4.77,
+        "left": 7.75,
+        "volt": 2.98,
+        "others": 12.04
+      }
+    },
+    "past-results": {
+      "cdu": {
+        "Anzahl": 89659,
+        "Prozent": 21.49
+      },
+      "spd": {
+        "Anzahl": 90040,
+        "Prozent": 21.58
+      },
+      "greens": {
+        "Anzahl": 118997,
+        "Prozent": 28.52
+      },
+      "fdp": {
+        "Anzahl": 21965,
+        "Prozent": 5.26
+      },
+      "left": {
+        "Anzahl": 27044,
+        "Prozent": 6.48
+      },
+      "afd": {
+        "Anzahl": 18272,
+        "Prozent": 4.38
+      },
+      "volt": {
+        "Anzahl": 20783,
+        "Prozent": 4.98
+      },
+      "the-party": {
+        "Anzahl": 10261,
+        "Prozent": 2.46
+      },
+      "klima": {
+        "Anzahl": 8383,
+        "Prozent": 2.01
+      },
+      "gut": {
+        "Anzahl": 8298,
+        "Prozent": 1.99
+      },
+      "fwk": {
+        "Anzahl": 2501,
+        "Prozent": 0.6
+      },
+      "oedp": {
+        "Anzahl": 374,
+        "Prozent": 0.09
+      },
+      "pdf": {
+        "Anzahl": 31,
+        "Prozent": 0.01
+      },
+      "wsk": {
+        "Anzahl": 265,
+        "Prozent": 0.06
+      }
+    }
+  }
+  
