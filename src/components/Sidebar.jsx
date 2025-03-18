@@ -574,9 +574,17 @@ function Sidebar({
             {corporationData && corporationData.parties && (
                 <Box sx={{ mb: 3 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                        <Typography variant="subtitle1" fontWeight="medium">
-                            Parteien:
-                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="subtitle1" fontWeight="medium">
+                                Parteien:
+                            </Typography>
+                            <Chip
+                                label={`${totalPercentage.toFixed(1)}%`}
+                                size="small"
+                                color={totalPercentage > 100 ? "error" : "default"}
+                                sx={{ ml: 1 }}
+                            />
+                        </Box>
                         {totalPercentage > 100 && (
                             <Alert severity="error" sx={{ py: 0, px: 1 }}>
                                 Max. 100%! (Aktuell: {totalPercentage.toFixed(1)}%)
@@ -599,6 +607,7 @@ function Sidebar({
                             />
                         ))}
                     </List>
+
 
                     {/* Ausgelagerte Popover-Komponente */}
                     <CandidatesPopover
