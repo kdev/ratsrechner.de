@@ -79,7 +79,7 @@ const PartyListItem = React.memo(({
                             style: { textAlign: 'right', padding: '4px 8px' }
                         }}
                         sx={{
-                            width: 75,
+                            width: 95,
                             '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': {
                                 WebkitAppearance: 'none',
                                 margin: 0,
