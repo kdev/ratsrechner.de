@@ -97,80 +97,107 @@ export const calculateDistrictWinners = (districtVotes) => {
  * @returns {Object} - Objekt mit Partei-IDs als Schlüssel und zugeteilten Sitzen als Werte
  */
 export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
-    // Konvertiere Prozentwerte in Stimmen (wir nehmen einfach die Prozente als Stimmen)
+    // 1) Vorbereitung: Stimmen laden, ungültige entfernen etc.
     const votes = { ...partyPercentages };
 
-    // Entferne Parteien mit 0 Prozent
     Object.keys(votes).forEach(partyId => {
         if (parseFloat(votes[partyId]) === 0) {
             delete votes[partyId];
         }
     });
 
-    // Wenn keine Parteien übrig bleiben, gib leeres Objekt zurück
     if (Object.keys(votes).length === 0) {
         return {};
     }
 
-    // Berechne die Gesamtstimmen
     const totalVotes = Object.values(votes).reduce((sum, vote) => sum + parseFloat(vote), 0);
 
-    // Anzahl der Wahlkreise ist die Hälfte der regulären Sitze
+    // Nur als Beispiel: Anzahl der Direktmandate könnte hier relevant sein, 
+    // aber in dieser Implementierung wird numDirectSeats nicht weiter genutzt.
     const numDirectSeats = Math.floor(totalSeats / 2);
 
-    // Stelle sicher, dass alle Parteien in directMandates enthalten sind
+    // Alle Parteien im directMandates-Objekt absichern
     Object.keys(votes).forEach(partyId => {
         if (!directMandates[partyId]) {
             directMandates[partyId] = 0;
         }
     });
 
-    // Schritt 1: Berechne den Idealanspruch jeder Partei
+    // 2) Schritt: Idealansprüche nach Stimmenanteil berechnen
     const idealClaims = {};
     Object.keys(votes).forEach(partyId => {
         const relativeVoteShare = parseFloat(votes[partyId]) / totalVotes;
         idealClaims[partyId] = relativeVoteShare * totalSeats;
     });
 
-    // Schritt 2: Berechne die abgerundeten Idealansprüche
+    // 3) Abgerundete Idealansprüche
     const roundedDownClaims = {};
     Object.keys(idealClaims).forEach(partyId => {
         roundedDownClaims[partyId] = Math.floor(idealClaims[partyId]);
     });
 
-    // Schritt 3: Berechne die prozentualen Reste
-    const percentualRests = {};
+    // 4) Verteilung der Restsitze nach Verhältnis = Idealanspruch / math.ceil(Idealanspruch)
+    let allocatedSeats = Object.values(roundedDownClaims).reduce((sum, seats) => sum + seats, 0);
+    let remainingSeats = totalSeats - allocatedSeats;
+
+    const comparisonValues = {};
     Object.keys(idealClaims).forEach(partyId => {
-        percentualRests[partyId] = idealClaims[partyId] - roundedDownClaims[partyId];
+        const ideal = idealClaims[partyId];
+        const roundedUp = Math.ceil(ideal);
+        const fractionalPart = ideal - Math.floor(ideal);
+
+        // Falls bereits ganzzahlig: -1, damit diese Partei bei Restsitzen nicht bevorzugt wird
+        comparisonValues[partyId] = fractionalPart > 0 ? (ideal / roundedUp) : -1;
     });
 
-    // Schritt 4: Verteile die restlichen Sitze nach den höchsten prozentualen Resten
-    let remainingSeats = totalSeats - Object.values(roundedDownClaims).reduce((sum, seats) => sum + seats, 0);
+    // Sortieren, bei Gleichheit Losentscheid via random
+    const sortedParties = Object.keys(comparisonValues)
+        .map(partyId => ({
+            partyId,
+            value: comparisonValues[partyId],
+            random: Math.random()
+        }))
+        .sort((a, b) => {
+            if (a.value === b.value) {
+                return b.random - a.random;
+            }
+            return b.value - a.value;
+        })
+        .map(item => item.partyId);
 
-    // Sortiere die Parteien nach ihren prozentualen Resten (absteigend)
-    const sortedParties = Object.keys(percentualRests).sort((a, b) => percentualRests[b] - percentualRests[a]);
-
-    // Verteile die restlichen Sitze
+    // Restsitze verteilen
     const proportionalSeats = { ...roundedDownClaims };
-    for (let i = 0; i < remainingSeats; i++) {
-        if (i < sortedParties.length) {
-            proportionalSeats[sortedParties[i]]++;
-        }
+    let index = 0;
+    while (remainingSeats > 0) {
+        const partyId = sortedParties[index % sortedParties.length];
+        proportionalSeats[partyId]++;
+        remainingSeats--;
+        index++;
     }
 
-    // Schritt 5: Prüfe auf Überhangmandate
-    let hasOverhangMandates = false;
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 5) Überhangmandate (Abs. 3) beachten:
+    //    Nur Parteien heranziehen, die in dieser Verteilung (Schritt 4) mind. 1 Sitz haben.
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    const partiesWithSeats = Object.keys(proportionalSeats).filter(
+        p => proportionalSeats[p] > 0
+    );
+
+    let hasOverhangMandate = false;
     let maxOverhangRatio = 0;
     let totalOverhangSeats = 0;
 
-    Object.keys(directMandates).forEach(partyId => {
+    // Überhang nur für jene Parteien prüfen, die bereits mindestens 1 Sitz haben
+    partiesWithSeats.forEach(partyId => {
         if (directMandates[partyId] > proportionalSeats[partyId]) {
-            hasOverhangMandates = true;
+            hasOverhangMandate = true;
             totalOverhangSeats += directMandates[partyId] - proportionalSeats[partyId];
 
-            // Berechne das Verhältnis zwischen Direktmandaten und Idealanspruch
-            if (idealClaims[partyId] > 0) {
-                const ratio = directMandates[partyId] / idealClaims[partyId];
+            // Verhältnis Direktmandate zu Idealanspruch
+            const claim = idealClaims[partyId] || 0;
+            if (claim > 0) {
+                const ratio = directMandates[partyId] / claim;
                 if (ratio > maxOverhangRatio) {
                     maxOverhangRatio = ratio;
                 }
@@ -178,78 +205,104 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
         }
     });
 
-    // Wenn es Überhangmandate gibt, berechne Ausgleichsmandate
-    if (hasOverhangMandates) {
-        // Berechne die neue Gesamtzahl der Sitze basierend auf dem maximalen Überhangverhältnis
-        let newTotalSeats = Math.ceil(maxOverhangRatio * totalSeats);
+    // Wenn Überhangmandate existieren, Ausgleichsmandate berechnen
+    if (hasOverhangMandate) {
+        // Neue Gesamtzahl nach dem größten Überhangverhältnis:
+        let newTotalSeats = Math.floor(maxOverhangRatio * totalSeats);
 
-        // Stelle sicher, dass die neue Gesamtzahl mindestens so groß ist wie die ursprüngliche plus Überhangmandate
+        // Mindestens so groß wie ursprüngliche Sitze + Überhang
         newTotalSeats = Math.max(newTotalSeats, totalSeats + totalOverhangSeats);
 
-        // Runde auf die nächste gerade Zahl auf, wenn ungerade
+        // Ist die ermittelte Zahl ungerade, auf nächste gerade Zahl aufrunden
         if (newTotalSeats % 2 !== 0) {
             newTotalSeats++;
         }
 
-        // Berechne die neue Sitzverteilung mit der erhöhten Gesamtzahl
+        // ─────────────────────────────────────────────────────────────────────────
+        // Nur jene Parteien werden jetzt erneut betrachtet, die mind. einen Sitz hatten
+        // (partiesWithSeats). Wir ignorieren alle anderen.
+        // ─────────────────────────────────────────────────────────────────────────
+        const filteredVotes = {};
+        partiesWithSeats.forEach(p => {
+            filteredVotes[p] = votes[p]; // nur diese Parteien bleiben
+        });
+
+        // Neue Idealansprüche für diese Parteien
         const newIdealClaims = {};
-        Object.keys(votes).forEach(partyId => {
-            const relativeVoteShare = parseFloat(votes[partyId]) / totalVotes;
+        let sumOfFilteredVotes = 0;
+        Object.values(filteredVotes).forEach(v => {
+            sumOfFilteredVotes += parseFloat(v);
+        });
+
+        Object.keys(filteredVotes).forEach(partyId => {
+            const relativeVoteShare = parseFloat(filteredVotes[partyId]) / sumOfFilteredVotes;
             newIdealClaims[partyId] = relativeVoteShare * newTotalSeats;
         });
 
-        // Berechne die abgerundeten neuen Idealansprüche
-        const newRoundedDownClaims = {};
+        const newRoundedDown = {};
         Object.keys(newIdealClaims).forEach(partyId => {
-            newRoundedDownClaims[partyId] = Math.floor(newIdealClaims[partyId]);
+            newRoundedDown[partyId] = Math.floor(newIdealClaims[partyId]);
         });
 
-        // Berechne die neuen prozentualen Reste
-        const newPercentualRests = {};
+        // Resteverteilung (könnte analog Schritt 4 sein oder der vereinfachte Ansatz mit prozentualen Resten)
+        let allocatedNew = Object.values(newRoundedDown).reduce((sum, seats) => sum + seats, 0);
+        let newRemSeats = newTotalSeats - allocatedNew;
+
+        const newRests = {};
         Object.keys(newIdealClaims).forEach(partyId => {
-            newPercentualRests[partyId] = newIdealClaims[partyId] - newRoundedDownClaims[partyId];
+            newRests[partyId] = newIdealClaims[partyId] - newRoundedDown[partyId];
         });
 
-        // Verteile die restlichen Sitze nach den höchsten prozentualen Resten
-        let newRemainingSeats = newTotalSeats - Object.values(newRoundedDownClaims).reduce((sum, seats) => sum + seats, 0);
+        // Sortieren nach (neuen) prozentualen Resten
+        const newSortedParties = Object.keys(newRests).sort(
+            (a, b) => newRests[b] - newRests[a]
+        );
 
-        // Sortiere die Parteien nach ihren prozentualen Resten (absteigend)
-        const newSortedParties = Object.keys(newPercentualRests).sort((a, b) => newPercentualRests[b] - newPercentualRests[a]);
-
-        // Verteile die restlichen Sitze
-        const finalSeats = { ...newRoundedDownClaims };
-        for (let i = 0; i < newRemainingSeats; i++) {
-            if (i < newSortedParties.length) {
-                finalSeats[newSortedParties[i]]++;
-            }
+        const finalSeats = { ...newRoundedDown };
+        for (let i = 0; i < newRemSeats; i++) {
+            finalSeats[newSortedParties[i % newSortedParties.length]]++;
         }
 
-        // Stelle sicher, dass jede Partei mindestens so viele Sitze hat wie Direktmandate
+        // Mindestens so viele Sitze wie Direktmandate
         Object.keys(directMandates).forEach(partyId => {
             if (finalSeats[partyId] < directMandates[partyId]) {
                 finalSeats[partyId] = directMandates[partyId];
             }
         });
 
-        return finalSeats;
+        // finalSeats sind die Mandate NUR für die qualifizierten Parteien
+        // Parteien ohne Sitze aus Schritt 4 bleiben auf 0.
+        // Damit die Ausgabe vollständig bleibt:
+        // Wir erzeugen ein Endergebnis mit allen Parteien (die es ursprünglich gab),
+        // setzen unqualifizierte Parteien explizit auf 0.
+        const completeResult = {};
+        Object.keys(votes).forEach(p => {
+            completeResult[p] = finalSeats[p] || 0;
+        });
+
+        return completeResult;
     }
 
-    // Schritt 6: Prüfe, ob eine Partei mit mehr als 50% der Stimmen auch mehr als 50% der Sitze hat
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 6) Partei mit >50% der Stimmen, aber <=50% der Sitze bekommt Zusatzmandat
+    // ─────────────────────────────────────────────────────────────────────────────
     Object.keys(votes).forEach(partyId => {
-        const voteShare = parseFloat(votes[partyId]) / totalVotes;
-        if (voteShare > 0.5 && proportionalSeats[partyId] <= totalSeats / 2) {
+        const share = parseFloat(votes[partyId]) / totalVotes;
+        if (share > 0.5 && proportionalSeats[partyId] <= totalSeats / 2) {
             // Gib der Partei ein Zusatzmandat
             proportionalSeats[partyId]++;
 
-            // Nimm der Partei mit dem geringsten prozentualen Rest einen Sitz weg
-            const partyWithLowestRest = sortedParties[sortedParties.length - 1];
-            if (partyWithLowestRest !== partyId && proportionalSeats[partyWithLowestRest] > 0) {
-                proportionalSeats[partyWithLowestRest]--;
+            // Nimm der Partei mit dem geringsten Vergleichswert einen Sitz weg,
+            // sofern diese Partei denselben nicht ohnehin nicht hätte usw.
+            // (Vereinfacht: einfach die zuletzt sortierte Partei)
+            const lowestRestParty = sortedParties[sortedParties.length - 1];
+            if (lowestRestParty !== partyId && proportionalSeats[lowestRestParty] > 0) {
+                proportionalSeats[lowestRestParty]--;
             }
         }
     });
 
-    // Stelle sicher, dass jede Partei mindestens so viele Sitze hat wie Direktmandate
+    // Stellen sicher, dass jede Partei mind. so viele Sitze hat, wie Direktmandate
     Object.keys(directMandates).forEach(partyId => {
         if (proportionalSeats[partyId] < directMandates[partyId]) {
             proportionalSeats[partyId] = directMandates[partyId];
@@ -258,6 +311,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
 
     return proportionalSeats;
 };
+
 
 /**
  * Wählt das richtige Sitzverteilungsverfahren basierend auf dem Schlüssel
