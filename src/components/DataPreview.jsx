@@ -65,7 +65,7 @@ const DistrictTableRow = React.memo(({
                     {district.number}. {district.name}
                 </Typography>
                 {winningCandidate && (
-                    <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0}>
+                    <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0} arrow>
                         <IconButton size="small" sx={{ ml: 0.5, p: 0 }}>
                             <PersonIcon fontSize="small" />
                         </IconButton>
