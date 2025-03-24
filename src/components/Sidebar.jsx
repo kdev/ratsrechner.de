@@ -24,7 +24,8 @@ import {
     Card,
     CardContent,
     Alert,
-    InputAdornment
+    InputAdornment,
+    Autocomplete
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { debounce } from 'lodash';
@@ -259,25 +260,39 @@ const ElectionSelect = React.memo(({ selectedElection, setSelectedElection, elec
 
 const CorporationSelect = React.memo(({ selectedCorporation, onCorporationChange, corporations }) => (
     <FormControl fullWidth margin="normal" size="small">
-        <InputLabel id="corporation-select-label">Körperschaft auswählen</InputLabel>
-        <Select
-            labelId="corporation-select-label"
+        <Autocomplete
             id="corporation-select"
-            value={selectedCorporation}
-            label="Körperschaft auswählen"
-            onChange={(e) => onCorporationChange(e.target.value)}
-        >
-            <MenuItem value="">
-                <em>-- Bitte wählen --</em>
-            </MenuItem>
-            {Object.keys(corporations).map(key => (
-                <MenuItem key={key} value={key}>
-                    {corporations[key]['name']}
-                </MenuItem>
-            ))}
-        </Select>
+            value={selectedCorporation ? { key: selectedCorporation, name: corporations[selectedCorporation]?.name } : null}
+            onChange={(event, newValue) => {
+                onCorporationChange(newValue ? newValue.key : "");
+            }}
+            options={Object.keys(corporations).map(key => ({
+                key: key,
+                name: corporations[key].name
+            }))}
+            getOptionLabel={(option) => option.name || ""}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label="Körperschaft auswählen"
+                    size="small"
+                />
+            )}
+            renderOption={(props, option) => {
+                // Extrahiere key aus props und speichere den Rest in restProps
+                const { key, ...restProps } = props;
+                return (
+                    <MenuItem key={option.key} {...restProps} value={option.key}>
+                        {option.name}
+                    </MenuItem>
+                );
+            }}
+            noOptionsText="Keine Körperschaften gefunden"
+        />
     </FormControl>
 ));
+
+
 
 const SeatAllocationInfo = React.memo(({ selectedElection, seatAllocation }) => (
     selectedElection && seatAllocation && (
