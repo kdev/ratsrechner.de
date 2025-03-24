@@ -664,7 +664,7 @@ function Sidebar({
                         rel="noopener noreferrer"
                         style={{ color: 'inherit', textDecoration: 'none' }}
                     >
-                        GitHub
+                        GitHub & Feedback
                     </a>
                 </Box>
                 <Typography variant="caption" color="text.secondary">
