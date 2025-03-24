@@ -545,8 +545,13 @@ function Sidebar({
     return (
         <Box sx={{ p: 2 }}>
             <Typography variant="h5" gutterBottom fontWeight="bold">
-                Sitzverteilung
+                Kommunalwahl Rechner
             </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="p" gutterBottom >
+                    Mit Ratsrechner.de können Sie die Sitzverteilung in Ihrem Stadtrat oder Kreistag berechnen.
+                </Typography>
+            </Box>
 
             <ElectionSelect
                 selectedElection={selectedElection}
