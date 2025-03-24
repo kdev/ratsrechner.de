@@ -671,6 +671,7 @@ function Sidebar({
                             title="Über Github Issues können Sie uns Feedback geben oder Fehler melden. Sie können auch selbst Änderungen vornehmen und Pull Requests einreichen. Zum Beispiel um neue Städte hinzufügen."
                             placement="right"
                             arrow
+                            enterTouchDelay={0}
                         >
                             <IconButton size="small" sx={{ ml: 0.5, p: 0.25 }}>
                                 <InfoIcon fontSize="small" color="action" />
