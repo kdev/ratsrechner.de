@@ -18,6 +18,7 @@ import {
     Chip,
     Divider,
     Tooltip,
+    IconButton,
     Badge,
     Popover,
     Card,
@@ -25,6 +26,7 @@ import {
     Alert,
     InputAdornment
 } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 import { debounce } from 'lodash';
 
 // Memoized Party-Listenelement für bessere Performance
@@ -664,8 +666,18 @@ function Sidebar({
                         rel="noopener noreferrer"
                         style={{ color: 'inherit', textDecoration: 'none' }}
                     >
-                        GitHub & Feedback
+                        GitHub
+                        <Tooltip
+                            title="Über Github Issues können Sie uns Feedback geben oder Fehler melden. Sie können auch selbst Änderungen vornehmen und Pull Requests einreichen. Zum Beispiel um neue Städte hinzufügen."
+                            placement="right"
+                            arrow
+                        >
+                            <IconButton size="small" sx={{ ml: 0.5, p: 0.25 }}>
+                                <InfoIcon fontSize="small" color="action" />
+                            </IconButton>
+                        </Tooltip>
                     </a>
+
                 </Box>
                 <Typography variant="caption" color="text.secondary">
                     © {new Date().getFullYear()} Tools for Democracy
