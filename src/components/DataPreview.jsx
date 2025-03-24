@@ -56,22 +56,33 @@ const DistrictTableRow = React.memo(({
                     bgcolor: winningPartyData ? `${winningPartyData.colorcode}20` : 'inherit'
                 }}
             >
-                {isOverLimit && (
-                    <Tooltip title="Summe überschreitet 100%" enterTouchDelay={0}>
-                        <WarningIcon color="error" fontSize="small" sx={{ mr: 0.5, verticalAlign: 'middle' }} />
-                    </Tooltip>
-                )}
-                <Typography variant="body2">
-                    {district.number}. {district.name}
-                </Typography>
-                {winningCandidate && (
-                    <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0} arrow>
-                        <IconButton size="small" sx={{ ml: 0.5, p: 0 }}>
-                            <PersonIcon fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
-                )}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexWrap: 'nowrap',
+                        width: '100%',
+                        height: '100%'
+                    }}
+                >
+                    {isOverLimit && (
+                        <Tooltip title="Summe überschreitet 100%" enterTouchDelay={0}>
+                            <WarningIcon color="error" fontSize="small" sx={{ mr: 0.5 }} />
+                        </Tooltip>
+                    )}
+                    <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
+                        {district.number}. {district.name}
+                    </Typography>
+                    {winningCandidate && (
+                        <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0} arrow placement="right">
+                            <IconButton size="small" sx={{ ml: 0.5, p: 0 }}>
+                                <PersonIcon fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </Box>
             </TableCell>
+
 
             {parties.map(party => {
                 const isWinner = party.identifier === winningParty;
