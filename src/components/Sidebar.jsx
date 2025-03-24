@@ -656,7 +656,7 @@ function Sidebar({
                         rel="noopener noreferrer"
                         style={{ color: 'inherit', textDecoration: 'none' }}
                     >
-                        Impressum
+                        Impressum & Datenschutz
                     </a>
                     <a
                         href="https://github.com/Tools-for-Democracy/ratsrechner.de"
