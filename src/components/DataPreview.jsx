@@ -57,7 +57,7 @@ const DistrictTableRow = React.memo(({
                 }}
             >
                 {isOverLimit && (
-                    <Tooltip title="Summe überschreitet 100%">
+                    <Tooltip title="Summe überschreitet 100%" enterTouchDelay={0}>
                         <WarningIcon color="error" fontSize="small" sx={{ mr: 0.5, verticalAlign: 'middle' }} />
                     </Tooltip>
                 )}
@@ -65,7 +65,7 @@ const DistrictTableRow = React.memo(({
                     {district.number}. {district.name}
                 </Typography>
                 {winningCandidate && (
-                    <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`}>
+                    <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0}>
                         <IconButton size="small" sx={{ ml: 0.5, p: 0 }}>
                             <PersonIcon fontSize="small" />
                         </IconButton>
@@ -131,7 +131,7 @@ const DistrictTableRow = React.memo(({
             >
                 {total.toFixed(1)}%
                 {isOverLimit && (
-                    <Tooltip title="Summe überschreitet 100%">
+                    <Tooltip title="Summe überschreitet 100%" enterTouchDelay={0}>
                         <WarningIcon color="error" fontSize="small" sx={{ ml: 0.5, verticalAlign: 'middle' }} />
                     </Tooltip>
                 )}
@@ -522,6 +522,7 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
                     title="Wirkt sich nur auf die Wahlkreisgewinner aus."
                     placement="right"
                     arrow
+                    enterTouchDelay={0}
                 >
                     <IconButton size="small" sx={{ ml: 1, p: 0.5 }}>
                         <InfoIcon fontSize="small" color="action" />
