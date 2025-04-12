@@ -140,7 +140,141 @@
         "identifier": "cdu",
         "short": "CDU",
         "name": "Christlich Demokratische Union Deutschlands",
-        "colorcode": "#191919"
+        "colorcode": "#191919",
+        "districts-candidates": [
+        {
+            "district-number": 1,
+            "candidate-name": "Dr. Diemar Erber"
+        },
+        {
+            "district-number": 2,
+            "candidate-name": "Sarah Quiskamp"
+        },
+        {
+            "district-number": 3,
+            "candidate-name": "Alexander Dobbelstein"
+        },
+        {
+            "district-number": 4,
+            "candidate-name": "Claudia Krampe"
+        },
+        {
+            "district-number": 5,
+            "candidate-name": "Dr. Britta Riederer von Paar"
+        },
+        {
+            "district-number": 6,
+            "candidate-name": "Jan Leiße"
+        },
+        {
+            "district-number": 7,
+            "candidate-name": "Ralph Peya"
+        },
+        {
+            "district-number": 8,
+            "candidate-name": "Pia Hoppenberg"
+        },
+        {
+            "district-number": 9,
+            "candidate-name": "Richard Halberstadt"
+        },
+        {
+            "district-number": 10,
+            "candidate-name": "Barsam Ashrafi"
+        },
+        {
+            "district-number": 11,
+            "candidate-name": "Fabian Hönicke"
+        },
+        {
+            "district-number": 12,
+            "candidate-name": "Dr. Markus Johow"
+        },
+        {
+            "district-number": 13,
+            "candidate-name": "Carolin Schwarz"
+        },
+        {
+            "district-number": 14,
+            "candidate-name": "Babette Lichtenstein van Lengerich"
+        },
+        {
+            "district-number": 15,
+            "candidate-name": "Olaf Bloch"
+        },
+        {
+            "district-number": 16,
+            "candidate-name": "Jolanta Vogelberg"
+        },
+        {
+            "district-number": 17,
+            "candidate-name": "Andreas Bracht"
+        },
+        {
+            "district-number": 18,
+            "candidate-name": "Thomas Werth"
+        },
+        {
+            "district-number": 19,
+            "candidate-name": "Walter von Göwels"
+        },
+        {
+            "district-number": 20,
+            "candidate-name": "Mathias Kersting"
+        },
+        {
+            "district-number": 21,
+            "candidate-name": "Martin Peitzmeier"
+        },
+        {
+            "district-number": 22,
+            "candidate-name": "Alf Kassenbrock"
+        },
+        {
+            "district-number": 23,
+            "candidate-name": "Carmen Greefrath"
+        },
+        {
+            "district-number": 24,
+            "candidate-name": "Marcus Bielefeld"
+        },
+        {
+            "district-number": 25,
+            "candidate-name": "Stefan Leschniok"
+        },
+        {
+            "district-number": 26,
+            "candidate-name": "Stefan Weber"
+        },
+        {
+            "district-number": 27,
+            "candidate-name": "Peter Wolfgarten"
+        },
+        {
+            "district-number": 28,
+            "candidate-name": "Matthias Lehmann"
+        },
+        {
+            "district-number": 29,
+            "candidate-name": "Angela Stähler"
+        },
+        {
+            "district-number": 30,
+            "candidate-name": "Dr. Sabrina Martens"
+        },
+        {
+            "district-number": 31,
+            "candidate-name": "Dr. Martin Lücke"
+        },
+        {
+            "district-number": 32,
+            "candidate-name": "Jutta Malik"
+        },
+        {
+            "district-number": 33,
+            "candidate-name": "Meik Bruns"
+        }
+        ]
       },
       {
         "identifier": "spd",
