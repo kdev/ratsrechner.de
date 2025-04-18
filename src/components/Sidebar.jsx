@@ -600,12 +600,12 @@ function Sidebar({
                             <Typography variant="subtitle1" fontWeight="medium">
                                 Parteien:
                             </Typography>
-                            <Chip
+                            {/* <Chip
                                 label={`${totalPercentage.toFixed(1)}%`}
                                 size="small"
                                 color={totalPercentage > 100 ? "error" : "default"}
                                 sx={{ ml: 1 }}
-                            />
+                            /> */}
                         </Box>
                         {totalPercentage > 100 && (
                             <Alert severity="error" sx={{ py: 0, px: 1 }}>
@@ -628,6 +628,56 @@ function Sidebar({
                                 totalPercentage={totalPercentage}
                             />
                         ))}
+                            <ListItem
+                                disablePadding
+                                sx={{ mb: 1.5 }}
+                            >
+                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <Box
+                                            sx={{
+                                                width: 16,
+                                                height: 16,
+                                                borderRadius: '50%',
+                                                bgcolor: 'grey.500',
+                                                mr: 1
+                                            }}
+                                        />
+                                        <Typography variant="body2">
+                                            Sonstige
+                                        </Typography>
+                                    </Box>
+
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <TextField
+                                            type="number"
+                                            size="small"
+                                            disabled
+                                            inputProps={{
+                                                min: 0,
+                                                max: 100,
+                                                step: 0.1,
+                                                style: { textAlign: 'right', padding: '4px 8px' }
+                                            }}
+                                            sx={{
+                                                width: 95,
+                                                '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': {
+                                                    WebkitAppearance: 'none',
+                                                    margin: 0,
+                                                },
+                                                '& input[type=number]': {
+                                                    MozAppearance: 'textfield',
+                                                }
+                                            }}
+                                            value={(100 - totalPercentage).toFixed(1)}
+                                            InputProps={{
+                                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                            }}
+                                        />
+                                    </Box>
+                                </Box>
+                            </ListItem>
+
                     </List>
 
 
