@@ -63,6 +63,7 @@ function App() {
   const [dataPreview, setDataPreview] = useState('');
   const [districtVotes, setDistrictVotes] = useState({});
   const [districtWinners, setDistrictWinners] = useState({});
+  const [independentCandidates, setIndependentCandidates] = useState({});
 
   // Lade alle Wahlen aus /data/elections.json
   useEffect(() => {
@@ -126,49 +127,53 @@ function App() {
     setDistrictWinners(winners);
   };
 
+
+  const handleIndependentCandidatesChange = (newIndependentCandidates) => {
+    setIndependentCandidates(newIndependentCandidates);
+  };
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Adds the baseline styles recommended by Material UI */}
-      <Container maxWidth="false" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={3}>
-          {/* Sidebar */}
-          <Grid item xs={12} md={3}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Sidebar
-                elections={elections}
-                selectedElection={selectedElection}
-                setSelectedElection={(value) => {
-                  setSelectedElection(value);
-                  // Setze Körperschaftsauswahl und zugehörige Daten zurück, wenn sich die Wahl ändert
-                  setSelectedCorporation('');
-                  setCorporationData(null);
-                  setDataPreview('');
-                  //setDistrictVotes({});
-                }}
-                corporations={corporations}
-                selectedCorporation={selectedCorporation}
-                onCorporationChange={handleCorporationChange}
-                corporationData={corporationData}
-                districtVotes={districtVotes}
-                districtWinners={districtWinners}
-              />
-            </Paper>
-          </Grid>
-          {/* Data Preview */}
-          <Grid item xs={12} md={9}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <DataPreview
-                dataPreview={dataPreview}
-                corporationData={corporationData}
-                onDistrictVotesChange={handleDistrictVotesChange}
-                onDistrictWinnersChange={handleDistrictWinnersChange}
-              />
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
+        <CssBaseline />
+        <Container maxWidth="false" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+                {/* Sidebar */}
+                <Grid item xs={12} md={3}>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <Sidebar
+                            elections={elections}
+                            selectedElection={selectedElection}
+                            setSelectedElection={(value) => {
+                                setSelectedElection(value);
+                                setSelectedCorporation('');
+                                setCorporationData(null);
+                                setDataPreview('');
+                            }}
+                            corporations={corporations}
+                            selectedCorporation={selectedCorporation}
+                            onCorporationChange={handleCorporationChange}
+                            corporationData={corporationData}
+                            districtVotes={districtVotes}
+                            districtWinners={districtWinners}
+                            independentCandidates={independentCandidates}
+                        />
+                    </Paper>
+                </Grid>
+                {/* Data Preview */}
+                <Grid item xs={12} md={9}>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        <DataPreview
+                            dataPreview={dataPreview}
+                            corporationData={corporationData}
+                            onDistrictVotesChange={handleDistrictVotesChange}
+                            onDistrictWinnersChange={handleDistrictWinnersChange}
+                            onIndependentCandidatesChange={handleIndependentCandidatesChange}
+                        />
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Container>
     </ThemeProvider>
-  );
+);
 }
 
 export default App;

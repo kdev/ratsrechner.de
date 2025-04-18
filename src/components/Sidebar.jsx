@@ -314,7 +314,8 @@ const CorporationInfo = React.memo(({
     seatDistribution,
     seatAllocation,
     numDirectSeats,
-    totalDirectMandates
+    totalDirectMandates,
+    successfulIndependents = 0 
 }) => (
     corporationData && (
         <Box sx={{ mt: 2, mb: 3 }}>
@@ -322,7 +323,7 @@ const CorporationInfo = React.memo(({
                 Anzahl der Ratssitze:
             </Typography>
             <Typography variant="body1">
-                {totalAllocatedSeats}
+                {totalAllocatedSeats + successfulIndependents}
             </Typography>
 
             {/* Chart für die Sitzverteilung */}
@@ -331,6 +332,7 @@ const CorporationInfo = React.memo(({
                     <SeatDistributionChart
                         seatDistribution={seatDistribution}
                         parties={corporationData.parties}
+                        independentSeats={successfulIndependents}
                     />
                 </Box>
             )}
@@ -353,7 +355,8 @@ const SeatSummary = React.memo(({
     totalPercentage,
     totalAllocatedSeats,
     corporationData,
-    seatAllocation
+    seatAllocation,
+    successfulIndependents = 0
 }) => (
     totalPercentage <= 100 && totalAllocatedSeats > 0 && (
         <Paper
@@ -364,13 +367,14 @@ const SeatSummary = React.memo(({
                 Sitzverteilung ({seatAllocation.name}):
             </Typography>
             <Typography variant="body2">
-                Insgesamt verteilt: {totalAllocatedSeats} von {corporationData['cuncil-seats']} Sitzen
+                Insgesamt verteilt: {totalAllocatedSeats + successfulIndependents} von {corporationData['cuncil-seats']} Sitzen
+                {successfulIndependents > 0 && ` (davon ${successfulIndependents} Einzelbewerber)`}
             </Typography>
 
             {/* Zeige Hinweis zu Überhangmandaten, wenn Rock-Verfahren verwendet wird */}
-            {seatAllocation && seatAllocation.key === 'rock' && totalAllocatedSeats > corporationData['cuncil-seats'] && (
+            {seatAllocation && seatAllocation.key === 'rock' && totalAllocatedSeats + successfulIndependents > corporationData['cuncil-seats'] && (
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                    Inkl. {totalAllocatedSeats - corporationData['cuncil-seats']} Ausgleichsmandate
+                    Inkl. {totalAllocatedSeats + successfulIndependents - corporationData['cuncil-seats']} Ausgleichsmandate
                 </Typography>
             )}
         </Paper>
@@ -386,7 +390,8 @@ function Sidebar({
     onCorporationChange,
     corporationData,
     districtVotes,
-    districtWinners
+    districtWinners,
+    independentCandidates
 }) {
     // Erhalte das Sitzzuteilungsverfahren aus der ausgewählten Wahl
     const seatAllocation = selectedElection && elections[selectedElection] && elections[selectedElection]['seat-allocation'];
@@ -505,6 +510,11 @@ function Sidebar({
         }
     }, [memoizedDirectMandates, directMandates]);
 
+    const successfulIndependents = useMemo(() => {
+        if (!independentCandidates) return 0;
+        return Object.values(independentCandidates).filter(Boolean).length;
+    }, [independentCandidates]);
+
     // Memoized Berechnung der Sitzverteilung
     const memoizedSeatDistribution = useMemo(() => {
         if (!corporationData || !seatAllocation || totalPercentage > 100) {
@@ -514,15 +524,19 @@ function Sidebar({
         const totalSeats = corporationData['cuncil-seats'];
         const method = seatAllocation.key;
 
+        // Berechne die Anzahl der erfolgreichen Einzelbewerber
+        const independentSeats = Object.values(independentCandidates || {}).filter(Boolean).length;
+
         let seats;
         if (method === 'rock' && Object.keys(directMandates).length > 0) {
-            seats = calculateSeats(method, partyPercentages, totalSeats, directMandates);
+            seats = calculateSeats(method, partyPercentages, totalSeats, directMandates, independentSeats);
         } else {
-            seats = calculateSeats(method, partyPercentages, totalSeats);
+            seats = calculateSeats(method, partyPercentages, totalSeats, {}, independentSeats);
         }
 
         return seats;
-    }, [corporationData, seatAllocation, totalPercentage, directMandates, partyPercentages]);
+    }, [corporationData, seatAllocation, totalPercentage, directMandates, partyPercentages, independentCandidates]);
+
 
     // Aktualisiere seatDistribution, wenn sich memoizedSeatDistribution ändert
     useEffect(() => {
@@ -590,7 +604,17 @@ function Sidebar({
                 seatAllocation={seatAllocation}
                 numDirectSeats={numDirectSeats}
                 totalDirectMandates={totalDirectMandates}
+                successfulIndependents={successfulIndependents}
             />
+
+            {/* Anzeige der erfolgreichen Einzelbewerber */}
+            {successfulIndependents > 0 && (
+                <Box sx={{ mb: 2 }}>
+                    <Typography variant="body2" fontWeight="normal">
+                        Erfolgreiche Einzelbew.: {successfulIndependents}
+                    </Typography>
+                </Box>
+            )}
 
             {/* Parteien mit Prozentfeldern und Sitzverteilung */}
             {corporationData && corporationData.parties && (
@@ -628,55 +652,55 @@ function Sidebar({
                                 totalPercentage={totalPercentage}
                             />
                         ))}
-                            <ListItem
-                                disablePadding
-                                sx={{ mb: 1.5 }}
-                            >
-                                <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Box
-                                            sx={{
-                                                width: 16,
-                                                height: 16,
-                                                borderRadius: '50%',
-                                                bgcolor: 'grey.500',
-                                                mr: 1
-                                            }}
-                                        />
-                                        <Typography variant="body2">
-                                            Sonstige
-                                        </Typography>
-                                    </Box>
-
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <TextField
-                                            type="number"
-                                            size="small"
-                                            disabled
-                                            inputProps={{
-                                                min: 0,
-                                                max: 100,
-                                                step: 0.1,
-                                                style: { textAlign: 'right', padding: '4px 8px' }
-                                            }}
-                                            sx={{
-                                                width: 95,
-                                                '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': {
-                                                    WebkitAppearance: 'none',
-                                                    margin: 0,
-                                                },
-                                                '& input[type=number]': {
-                                                    MozAppearance: 'textfield',
-                                                }
-                                            }}
-                                            value={(100 - totalPercentage).toFixed(1)}
-                                            InputProps={{
-                                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                            }}
-                                        />
-                                    </Box>
+                        <ListItem
+                            disablePadding
+                            sx={{ mb: 1.5 }}
+                        >
+                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <Box
+                                        sx={{
+                                            width: 16,
+                                            height: 16,
+                                            borderRadius: '50%',
+                                            bgcolor: 'grey.500',
+                                            mr: 1
+                                        }}
+                                    />
+                                    <Typography variant="body2">
+                                        Sonstige
+                                    </Typography>
                                 </Box>
-                            </ListItem>
+
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <TextField
+                                        type="number"
+                                        size="small"
+                                        disabled
+                                        inputProps={{
+                                            min: 0,
+                                            max: 100,
+                                            step: 0.1,
+                                            style: { textAlign: 'right', padding: '4px 8px' }
+                                        }}
+                                        sx={{
+                                            width: 95,
+                                            '& input::-webkit-inner-spin-button, & input::-webkit-outer-spin-button': {
+                                                WebkitAppearance: 'none',
+                                                margin: 0,
+                                            },
+                                            '& input[type=number]': {
+                                                MozAppearance: 'textfield',
+                                            }
+                                        }}
+                                        value={(100 - totalPercentage).toFixed(1)}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                        }}
+                                    />
+                                </Box>
+                            </Box>
+                        </ListItem>
 
                     </List>
 
@@ -699,6 +723,7 @@ function Sidebar({
                         totalAllocatedSeats={totalAllocatedSeats}
                         corporationData={corporationData}
                         seatAllocation={seatAllocation}
+                        successfulIndependents={successfulIndependents}
                     />
                 </Box>
             )}

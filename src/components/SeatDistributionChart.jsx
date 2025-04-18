@@ -5,7 +5,7 @@ import { Doughnut } from 'react-chartjs-2';
 // Registriere die benötigten Chart.js-Komponenten
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function SeatDistributionChart({ seatDistribution, parties }) {
+function SeatDistributionChart({ seatDistribution, parties, independentSeats = 0 }) {
   // Wenn keine Daten vorhanden sind, zeige nichts an
   if (!seatDistribution || !parties || Object.keys(seatDistribution).length === 0) {
     return null;
@@ -39,6 +39,14 @@ function SeatDistributionChart({ seatDistribution, parties }) {
       chartData.datasets[0].borderColor.push('#ffffff');
     }
   });
+
+  // Füge Einzelbewerber hinzu, wenn vorhanden
+  if (independentSeats > 0) {
+    chartData.labels.push(`Einzelbew. (${independentSeats})`);
+    chartData.datasets[0].data.push(independentSeats);
+    chartData.datasets[0].backgroundColor.push('#808080'); // Grau für Einzelbewerber
+    chartData.datasets[0].borderColor.push('#ffffff');
+  }
 
   // Chart-Optionen
   const options = {

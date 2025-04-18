@@ -17,7 +17,8 @@ import {
     InputAdornment,
     Alert,
     IconButton,
-    Chip
+    Chip,
+    Checkbox
 } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import PersonIcon from '@mui/icons-material/Person';
@@ -36,11 +37,14 @@ const DistrictTableRow = React.memo(({
     handleVoteChange,
     winningParty,
     winningCandidate,
-    corporationData
+    corporationData,
+    independentCandidates,
+    handleIndependentChange
 }) => {
     const total = districtTotals[district.number] || 0;
     const isOverLimit = total > 100.5;
-    const winningPartyData = winningParty ?
+    const isIndependent = independentCandidates[district.number] || false;
+    const winningPartyData = !isIndependent && winningParty ?
         corporationData.parties.find(p => p.identifier === winningParty) : null;
 
     return (
@@ -73,7 +77,7 @@ const DistrictTableRow = React.memo(({
                     <Typography variant="body2" sx={{ whiteSpace: 'nowrap' }}>
                         {district.number}. {district.name}
                     </Typography>
-                    {winningCandidate && (
+                    {!isIndependent && winningCandidate && (
                         <Tooltip title={`${winningCandidate} (${winningPartyData?.short || ''})`} enterTouchDelay={0} arrow placement="right">
                             <IconButton size="small" sx={{ ml: 0.5, p: 0 }}>
                                 <PersonIcon fontSize="small" />
@@ -83,9 +87,9 @@ const DistrictTableRow = React.memo(({
                 </Box>
             </TableCell>
 
-
+            {/* Rest der Zeile bleibt gleich */}
             {parties.map(party => {
-                const isWinner = party.identifier === winningParty;
+                const isWinner = party.identifier === winningParty && !isIndependent;
 
                 return (
                     <TableCell
@@ -133,6 +137,15 @@ const DistrictTableRow = React.memo(({
                 );
             })}
 
+            {/* Neue Zelle für Einzelbewerber-Checkbox */}
+            <TableCell align="center">
+                <Checkbox
+                    checked={isIndependent}
+                    onChange={(e) => handleIndependentChange(district.number, e.target.checked)}
+                    size="small"
+                />
+            </TableCell>
+
             <TableCell
                 align="center"
                 sx={{
@@ -151,12 +164,22 @@ const DistrictTableRow = React.memo(({
     );
 });
 
+
 // Hauptkomponente
-function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDistrictWinnersChange }) {
+function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDistrictWinnersChange, onIndependentCandidatesChange }) {
     const [districtVotes, setDistrictVotes] = useState({});
     const [districtTotals, setDistrictTotals] = useState({});
+    const [independentCandidates, setIndependentCandidates] = useState({});
     const prevCorporationDataRef = useRef(null);
     const initializedRef = useRef(false);
+
+    const handleIndependentChange = useCallback((districtNumber, checked) => {
+        const newIndependentCandidates = {
+            ...independentCandidates,
+            [districtNumber]: checked
+        };
+        setIndependentCandidates(newIndependentCandidates);
+    }, [independentCandidates]);
 
     // Debounced Funktion für Stimmänderungen
     const debouncedHandleVoteChange = useCallback(
@@ -208,6 +231,9 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
 
     // Memoized Funktion zur Ermittlung der Gewinnerpartei
     const getWinningParty = useCallback((districtNumber) => {
+        // Wenn der Wahlkreis von einem Einzelbewerber gewonnen wurde, gibt es keinen Partei-Gewinner
+        if (independentCandidates[districtNumber]) return null;
+
         if (!districtVotes[districtNumber]) return null;
 
         let maxVotes = 0;
@@ -222,7 +248,8 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
         });
 
         return winner;
-    }, [districtVotes]);
+    }, [districtVotes, independentCandidates]);
+
 
     // Memoized Funktion zur Ermittlung des Kandidaten
     const getWinningCandidate = useCallback((districtNumber, winningPartyId) => {
@@ -253,14 +280,18 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
 
         corporationData.districts.forEach(district => {
             const districtNumber = district.number.toString();
-            const winner = getWinningParty(districtNumber);
-            if (winner) {
-                winners[districtNumber] = winner;
+            // Nur wenn kein Einzelbewerber den Wahlkreis gewonnen hat
+            if (!independentCandidates[districtNumber]) {
+                const winner = getWinningParty(districtNumber);
+                if (winner) {
+                    winners[districtNumber] = winner;
+                }
             }
         });
 
         return winners;
-    }, [corporationData, districtVotes, getWinningParty]);
+    }, [corporationData, districtVotes, getWinningParty, independentCandidates]);
+
 
     // Memoized Berechnung der Wahlkreiskandidaten
     const districtCandidates = useMemo(() => {
@@ -283,6 +314,12 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
             onDistrictWinnersChange(districtWinners);
         }
     }, [districtWinners, onDistrictWinnersChange]);
+
+    useEffect(() => {
+        if (onIndependentCandidatesChange) {
+            onIndependentCandidatesChange(independentCandidates);
+        }
+    }, [independentCandidates, onIndependentCandidatesChange]);
 
     // Initialisiere die Wahlkreis-Stimmen, wenn sich corporationData ändert
     useEffect(() => {
@@ -518,6 +555,7 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
                         </Box>
                     </TableCell>
                 ))}
+                <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Einzel. Bew.</TableCell>
                 <TableCell align="center" sx={{ fontWeight: 'bold' }}>Gesamt</TableCell>
             </TableRow>
         </TableHead>
@@ -556,6 +594,8 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
                                 winningParty={districtWinners[district.number]}
                                 winningCandidate={districtCandidates[district.number]}
                                 corporationData={corporationData}
+                                independentCandidates={independentCandidates}
+                                handleIndependentChange={handleIndependentChange}
                             />
                         ))}
                     </TableBody>

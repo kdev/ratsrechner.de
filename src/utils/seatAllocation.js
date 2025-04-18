@@ -6,9 +6,13 @@
  * Berechnet die Sitzverteilung nach dem Sainte-Laguë-Verfahren
  * @param {Object} partyPercentages - Objekt mit Partei-IDs als Schlüssel und Prozenten als Werte
  * @param {number} totalSeats - Gesamtzahl der zu verteilenden Sitze
+ * @param {number} independentSeats - Anzahl der Sitze, die bereits an Einzelbewerber vergeben wurden
  * @returns {Object} - Objekt mit Partei-IDs als Schlüssel und zugeteilten Sitzen als Werte
  */
-export const sainteLague = (partyPercentages, totalSeats) => {
+export const sainteLague = (partyPercentages, totalSeats, independentSeats = 0) => {
+    // Reduziere die Gesamtsitzzahl um die Sitze der Einzelbewerber
+    const remainingSeats = totalSeats - independentSeats;
+    
     // Konvertiere Prozentwerte in Stimmen (wir nehmen einfach die Prozente als Stimmen)
     const votes = { ...partyPercentages };
 
@@ -26,7 +30,7 @@ export const sainteLague = (partyPercentages, totalSeats) => {
     });
 
     // Verteile die Sitze nach dem Sainte-Laguë-Verfahren
-    for (let i = 0; i < totalSeats; i++) {
+    for (let i = 0; i < remainingSeats; i++) {
         let maxQuotient = 0;
         let maxParty = null;
 
@@ -94,9 +98,13 @@ export const calculateDistrictWinners = (districtVotes) => {
  * @param {Object} partyPercentages - Objekt mit Partei-IDs als Schlüssel und Prozenten als Werte
  * @param {number} totalSeats - Gesamtzahl der zu verteilenden Sitze
  * @param {Object} directMandates - Objekt mit Partei-IDs als Schlüssel und Anzahl gewonnener Wahlkreise als Werte
+ * @param {number} independentSeats - Anzahl der Sitze, die bereits an Einzelbewerber vergeben wurden
  * @returns {Object} - Objekt mit Partei-IDs als Schlüssel und zugeteilten Sitzen als Werte
  */
-export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
+export const rock = (partyPercentages, totalSeats, directMandates = {}, independentSeats = 0) => {
+    // Reduziere die Gesamtsitzzahl um die Sitze der Einzelbewerber
+    const remainingSeats = totalSeats - independentSeats;
+    
     // 1) Vorbereitung: Stimmen laden, ungültige entfernen etc.
     const votes = { ...partyPercentages };
 
@@ -114,7 +122,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
 
     // Nur als Beispiel: Anzahl der Direktmandate könnte hier relevant sein, 
     // aber in dieser Implementierung wird numDirectSeats nicht weiter genutzt.
-    const numDirectSeats = Math.floor(totalSeats / 2);
+    const numDirectSeats = Math.floor(remainingSeats / 2);
 
     // Alle Parteien im directMandates-Objekt absichern
     Object.keys(votes).forEach(partyId => {
@@ -127,7 +135,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
     const idealClaims = {};
     Object.keys(votes).forEach(partyId => {
         const relativeVoteShare = parseFloat(votes[partyId]) / totalVotes;
-        idealClaims[partyId] = relativeVoteShare * totalSeats;
+        idealClaims[partyId] = relativeVoteShare * remainingSeats;
     });
 
     // 3) Abgerundete Idealansprüche
@@ -138,7 +146,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
 
     // 4) Verteilung der Restsitze nach Verhältnis = Idealanspruch / math.ceil(Idealanspruch)
     let allocatedSeats = Object.values(roundedDownClaims).reduce((sum, seats) => sum + seats, 0);
-    let remainingSeats = totalSeats - allocatedSeats;
+    let remainingResidualSeats = remainingSeats - allocatedSeats;
 
     const comparisonValues = {};
     Object.keys(idealClaims).forEach(partyId => {
@@ -168,10 +176,10 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
     // Restsitze verteilen
     const proportionalSeats = { ...roundedDownClaims };
     let index = 0;
-    while (remainingSeats > 0) {
+    while (remainingResidualSeats > 0) {
         const partyId = sortedParties[index % sortedParties.length];
         proportionalSeats[partyId]++;
-        remainingSeats--;
+        remainingResidualSeats--;
         index++;
     }
 
@@ -208,10 +216,10 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
     // Wenn Überhangmandate existieren, Ausgleichsmandate berechnen
     if (hasOverhangMandate) {
         // Neue Gesamtzahl nach dem größten Überhangverhältnis:
-        let newTotalSeats = Math.floor(maxOverhangRatio * totalSeats);
+        let newTotalSeats = Math.floor(maxOverhangRatio * remainingSeats);
 
         // Mindestens so groß wie ursprüngliche Sitze + Überhang
-        newTotalSeats = Math.max(newTotalSeats, totalSeats + totalOverhangSeats);
+        newTotalSeats = Math.max(newTotalSeats, remainingSeats + totalOverhangSeats);
 
         // Ist die ermittelte Zahl ungerade, auf nächste gerade Zahl aufrunden
         if (newTotalSeats % 2 !== 0) {
@@ -288,7 +296,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
     // ─────────────────────────────────────────────────────────────────────────────
     Object.keys(votes).forEach(partyId => {
         const share = parseFloat(votes[partyId]) / totalVotes;
-        if (share > 0.5 && proportionalSeats[partyId] <= totalSeats / 2) {
+        if (share > 0.5 && proportionalSeats[partyId] <= remainingSeats / 2) {
             // Gib der Partei ein Zusatzmandat
             proportionalSeats[partyId]++;
 
@@ -319,17 +327,19 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}) => {
  * @param {Object} partyPercentages - Objekt mit Partei-IDs als Schlüssel und Prozenten als Werte
  * @param {number} totalSeats - Gesamtzahl der zu verteilenden Sitze
  * @param {Object} directMandates - Objekt mit Partei-IDs als Schlüssel und Anzahl gewonnener Wahlkreise als Werte
+ * @param {number} independentSeats - Anzahl der Sitze, die bereits an Einzelbewerber vergeben wurden
  * @returns {Object} - Objekt mit Partei-IDs als Schlüssel und zugeteilten Sitzen als Werte
  */
-export const calculateSeats = (method, partyPercentages, totalSeats, directMandates = {}) => {
+export const calculateSeats = (method, partyPercentages, totalSeats, directMandates = {}, independentSeats = 0) => {
     switch (method) {
         case 'sainte-lague':
-            return sainteLague(partyPercentages, totalSeats);
+            return sainteLague(partyPercentages, totalSeats, independentSeats);
         case 'rock':
-            return rock(partyPercentages, totalSeats, directMandates);
+            return rock(partyPercentages, totalSeats, directMandates, independentSeats);
         // Hier können weitere Verfahren hinzugefügt werden
         default:
             console.warn(`Unbekanntes Sitzverteilungsverfahren: ${method}`);
             return {};
     }
 };
+
