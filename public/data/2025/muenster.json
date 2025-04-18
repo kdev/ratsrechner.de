@@ -665,12 +665,6 @@
         "short": "Volt",
         "name": "Volt Deutschland",
         "colorcode": "#502379"
-      },
-      {
-        "identifier": "other",
-        "short": "Sonstige",
-        "name": "Sonstige",
-        "colorcode": "#502379"
       }
     ],
     "poll-results": {
