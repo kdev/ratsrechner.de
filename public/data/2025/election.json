@@ -1,4 +1,8 @@
 {
+  "burscheid": {
+    "name": "Stadt Burscheid",
+    "data-source": "/data/2025/burscheid.json"
+  },
     "muenster": {
       "name": "Stadt Münster",
       "data-source": "/data/2025/muenster.json"

@@ -1,0 +1,301 @@
+{
+    "cuncil-seats": 32,
+    "districts": [
+      {
+        "number": 1,
+        "name": "Zentrum Ost, Liesendahl, Höhestr., Geilenbach"
+      },
+      {
+        "number": 2,
+        "name": "Luisenstr., Burbachstr., Im Durfeld"
+      },
+      {
+        "number": 3,
+        "name": "Zentrum Süd, Jahnstr., Adolph-Kolping-Str."
+      },
+      {
+        "number": 4,
+        "name": "Zentrum, Pastor-Löh-Str."
+      },
+      {
+        "number": 5,
+        "name": "Griesberg"
+      },
+      {
+        "number": 6,
+        "name": "Büchel, Eulenflug, Füllsichel"
+      },
+      {
+        "number": 7,
+        "name": "Massiefen, Nagelsbaum, Kuckenberg"
+      },
+      {
+        "number": 8,
+        "name": "Rötzinghofen, Heddinghofen, Bornheim"
+      },
+      {
+        "number": 9,
+        "name": "Kaltenherberg, Sträßchen, Hammerweg"
+      },
+      {
+        "number": 10,
+        "name": "Dierath, Großhamberg, Dürscheid, Steinweg"
+      },
+      {
+        "number": 11,
+        "name": "Dünweg, Eschhausen, Kotten"
+      },
+      {
+        "number": 12,
+        "name": "Altenhilgen, Müllersbaum, Akazienweg"
+      },
+      {
+        "number": 13,
+        "name": "Hilgen Nord, Kölner Str., Großbruch"
+      },
+      {
+        "number": 14,
+        "name": "Hilgen, Schulstr., Witzheldener Str."
+      },
+      {
+        "number": 15,
+        "name": "Ösinghausen, Kippekofen"
+      },
+      {
+        "number": 16,
+        "name": "Blasberg, Paffenlöh, Benninghausen"
+      }
+    ],
+    "results": {},
+    "parties": [
+      {
+        "identifier": "cdu",
+        "short": "CDU",
+        "name": "Christlich Demokratische Union Deutschlands",
+        "colorcode": "#191919"
+      },
+      {
+        "identifier": "spd",
+        "short": "SPD",
+        "name": "Sozialdemokratische Partei Deutschlands",
+        "colorcode": "#e2001a"
+      },
+      {
+        "identifier": "bfb",
+        "short": "BfB",
+        "name": "Bürger für Burscheid",
+        "colorcode": "#009ee0"
+      },
+      {
+        "identifier": "greens",
+        "short": "GRÜNE",
+        "name": "BÜNDNIS 90/DIE GRÜNEN",
+        "colorcode": "#1fa12d"
+      },
+      {
+        "identifier": "fdp",
+        "short": "FDP",
+        "name": "Freie Demokratische Partei",
+        "colorcode": "#feed01"
+      },
+      {
+        "identifier": "uwg",
+        "short": "UWG",
+        "name": "Unabhängige Wählergemeinschaft",
+        "colorcode": "#ff9900"
+      },
+      {
+        "identifier": "left",
+        "short": "DIE LINKE",
+        "name": "DIE LINKE",
+        "colorcode": "#b52269"
+      }
+    ],
+    "poll-results": {
+      "cdu": 34.59,
+      "spd": 18.19,
+      "bfb": 19.56,
+      "greens": 16.78,
+      "fdp": 4.76,
+      "uwg": 3.64,
+      "left": 1.09
+    },
+    "past-district-results": {
+      "1": {
+        "cdu": 38.44,
+        "spd": 21.78,
+        "bfb": 15.11,
+        "greens": 8.44,
+        "fdp": 5.11,
+        "uwg": 8.44,
+        "left": 2.67
+      },
+      "2": {
+        "cdu": 32.58,
+        "spd": 15.36,
+        "bfb": 28.46,
+        "greens": 14.23,
+        "fdp": 3.75,
+        "uwg": 2.62,
+        "left": 3.00
+      },
+      "3": {
+        "cdu": 34.46,
+        "spd": 22.14,
+        "bfb": 18.57,
+        "greens": 16.61,
+        "fdp": 3.93,
+        "uwg": 4.29,
+        "left": 0.00
+      },
+      "4": {
+        "cdu": 30.75,
+        "spd": 24.03,
+        "bfb": 17.31,
+        "greens": 19.64,
+        "fdp": 2.58,
+        "uwg": 2.07,
+        "left": 3.62
+      },
+      "5": {
+        "cdu": 20.77,
+        "spd": 26.86,
+        "bfb": 37.47,
+        "greens": 5.64,
+        "fdp": 3.39,
+        "uwg": 4.06,
+        "left": 1.81
+      },
+      "6": {
+        "cdu": 41.64,
+        "spd": 17.77,
+        "bfb": 16.90,
+        "greens": 15.68,
+        "fdp": 4.36,
+        "uwg": 3.66,
+        "left": 0.00
+      },
+      "7": {
+        "cdu": 38.85,
+        "spd": 19.04,
+        "bfb": 17.31,
+        "greens": 19.42,
+        "fdp": 3.08,
+        "uwg": 0.96,
+        "left": 1.35
+      },
+      "8": {
+        "cdu": 35.42,
+        "spd": 15.85,
+        "bfb": 26.03,
+        "greens": 15.66,
+        "fdp": 4.50,
+        "uwg": 2.54,
+        "left": 0.00
+      },
+      "9": {
+        "cdu": 33.67,
+        "spd": 15.42,
+        "bfb": 13.18,
+        "greens": 23.94,
+        "fdp": 4.87,
+        "uwg": 5.27,
+        "left": 3.65
+      },
+      "10": {
+        "cdu": 30.70,
+        "spd": 19.65,
+        "bfb": 12.81,
+        "greens": 24.91,
+        "fdp": 8.25,
+        "uwg": 3.68,
+        "left": 0.00
+      },
+      "11": {
+        "cdu": 34.81,
+        "spd": 15.51,
+        "bfb": 18.51,
+        "greens": 20.73,
+        "fdp": 7.44,
+        "uwg": 3.01,
+        "left": 0.00
+      },
+      "12": {
+        "cdu": 39.26,
+        "spd": 25.15,
+        "bfb": 14.31,
+        "greens": 11.66,
+        "fdp": 5.11,
+        "uwg": 4.50,
+        "left": 0.00
+      },
+      "13": {
+        "cdu": 40.21,
+        "spd": 7.16,
+        "bfb": 6.32,
+        "greens": 15.37,
+        "fdp": 2.32,
+        "uwg": 4.21,
+        "left": 1.05,
+        "jurek": 23.37
+      },
+      "14": {
+        "cdu": 39.57,
+        "spd": 16.74,
+        "bfb": 18.91,
+        "greens": 17.83,
+        "fdp": 3.26,
+        "uwg": 3.70,
+        "left": 0.00
+      },
+      "15": {
+        "cdu": 33.61,
+        "spd": 18.14,
+        "bfb": 18.64,
+        "greens": 18.97,
+        "fdp": 7.49,
+        "uwg": 3.16,
+        "left": 0.00
+      },
+      "16": {
+        "cdu": 26.71,
+        "spd": 12.09,
+        "bfb": 37.36,
+        "greens": 14.80,
+        "fdp": 3.97,
+        "uwg": 2.35,
+        "left": 2.71
+      }
+    },
+    "past-results": {
+      "cdu": {
+        "Anzahl": 3456,
+        "Prozent": 34.59
+      },
+      "spd": {
+        "Anzahl": 1789,
+        "Prozent": 18.19
+      },
+      "bfb": {
+        "Anzahl": 1987,
+        "Prozent": 19.56
+      },
+      "greens": {
+        "Anzahl": 1654,
+        "Prozent": 16.78
+      },
+      "fdp": {
+        "Anzahl": 456,
+        "Prozent": 4.76
+      },
+      "uwg": {
+        "Anzahl": 345,
+        "Prozent": 3.64
+      },
+      "left": {
+        "Anzahl": 156,
+        "Prozent": 1.09
+      }
+    }
+  }
+  
