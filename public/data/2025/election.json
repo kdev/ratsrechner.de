@@ -10,5 +10,9 @@
     "cologne": {
       "name": "Stadt Köln",
       "data-source": "/data/2025/cologne.json"
+    },
+    "coe": {
+      "name": "Kreis Coesfeld",
+      "data-source": "/data/2025/coe.json"
     }
   }

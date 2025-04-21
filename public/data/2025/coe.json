@@ -1,0 +1,949 @@
+{
+    "cuncil-seats": 54,
+    "districts": [
+      {
+        "number": 1,
+        "name": "Ascheberg/ Nordkirchen"
+      },
+      {
+        "number": 2,
+        "name": "Ascheberg"
+      },
+      {
+        "number": 3,
+        "name": "Billerbeck"
+      },
+      {
+        "number": 4,
+        "name": "Billerbeck/ Rosendahl"
+      },
+      {
+        "number": 5,
+        "name": "Coesfeld"
+      },
+      {
+        "number": 6,
+        "name": "Coesfeld"
+      },
+      {
+        "number": 7,
+        "name": "Coesfeld"
+      },
+      {
+        "number": 8,
+        "name": "Coesfeld"
+      },
+      {
+        "number": 9,
+        "name": "Dülmen"
+      },
+      {
+        "number": 10,
+        "name": "Dülmen"
+      },
+      {
+        "number": 11,
+        "name": "Dülmen"
+      },
+      {
+        "number": 12,
+        "name": "Dülmen"
+      },
+      {
+        "number": 13,
+        "name": "Dülmen"
+      },
+      {
+        "number": 14,
+        "name": "Havixbeck"
+      },
+      {
+        "number": 15,
+        "name": "Havixbeck/ Nottuln"
+      },
+      {
+        "number": 16,
+        "name": "Lüdinghausen"
+      },
+      {
+        "number": 17,
+        "name": "Lüdinghausen"
+      },
+      {
+        "number": 18,
+        "name": "Lüdinghausen"
+      },
+      {
+        "number": 19,
+        "name": "Nordkirchen"
+      },
+      {
+        "number": 20,
+        "name": "Nottuln"
+      },
+      {
+        "number": 21,
+        "name": "Nottuln"
+      },
+      {
+        "number": 22,
+        "name": "Olfen"
+      },
+      {
+        "number": 23,
+        "name": "Olfen/ Lüdinghausen"
+      },
+      {
+        "number": 24,
+        "name": "Rosendahl/ Coesfeld"
+      },
+      {
+        "number": 25,
+        "name": "Senden"
+      },
+      {
+        "number": 26,
+        "name": "Senden"
+      },
+      {
+        "number": 27,
+        "name": "Senden/ Dülmen"
+      }
+    ],
+    "results": {},
+    "parties": [
+      {
+        "identifier": "cdu",
+        "short": "CDU",
+        "name": "Christlich Demokratische Union Deutschlands",
+        "colorcode": "#191919"
+      },
+      {
+        "identifier": "spd",
+        "short": "SPD",
+        "name": "Sozialdemokratische Partei Deutschlands",
+        "colorcode": "#e2001a",
+        "districts-candidates": [
+          {
+              "district-number": 1,
+              "candidate-name": "Claudia Ley"
+          },
+          {
+              "district-number": 2,
+              "candidate-name": "Johannes Waldmann"
+          },
+          {
+              "district-number": 3,
+              "candidate-name": "Thomas Tauber"
+          },
+          {
+              "district-number": 4,
+              "candidate-name": "Patrick Dieker"
+          },
+          {
+              "district-number": 5,
+              "candidate-name": "Matthis Tasler"
+          },
+          {
+              "district-number": 6,
+              "candidate-name": "Hermann-Josef Vogt"
+          },
+          {
+              "district-number": 7,
+              "candidate-name": "Frieda Schmitz"
+          },
+          {
+              "district-number": 8,
+              "candidate-name": "André Kretschmer"
+          },
+          {
+              "district-number": 9,
+              "candidate-name": "Anke Pohlschmidt"
+          },
+          {
+              "district-number": 10,
+              "candidate-name": "Heiner Kiekebusch"
+          },
+          {
+              "district-number": 11,
+              "candidate-name": "Matthias Fischer"
+          },
+          {
+              "district-number": 12,
+              "candidate-name": "Ludger Mensmann"
+          },
+          {
+              "district-number": 13,
+              "candidate-name": "Meike Hiller"
+          },
+          {
+              "district-number": 14,
+              "candidate-name": "Anja Postruschnik"
+          },
+          {
+              "district-number": 15,
+              "candidate-name": "Margarete Schäpers"
+          },
+          {
+              "district-number": 16,
+              "candidate-name": "Michael Spiekermann-Blankertz"
+          },
+          {
+              "district-number": 17,
+              "candidate-name": "Johanna Holtrup"
+          },
+          {
+              "district-number": 18,
+              "candidate-name": "Niko Gernitz"
+          },
+          {
+              "district-number": 19,
+              "candidate-name": "Tanja Bukelis-Graudenz"
+          },
+          {
+              "district-number": 20,
+              "candidate-name": "Peter Amadeus Schneider"
+          },
+          {
+              "district-number": 21,
+              "candidate-name": "Holger Zbick"
+          },
+          {
+              "district-number": 22,
+              "candidate-name": "Franz-Dieter Seiwert"
+          },
+          {
+              "district-number": 23,
+              "candidate-name": "Theresa Petrausch"
+          },
+          {
+              "district-number": 24,
+              "candidate-name": "Carmen Hambrügge"
+          },
+          {
+              "district-number": 25,
+              "candidate-name": "Ludger Schöning"
+          },
+          {
+              "district-number": 26,
+              "candidate-name": "Jan-Peter Klingelhöfer"
+          },
+          {
+              "district-number": 27,
+              "candidate-name": "Niklas Sticht"
+          }
+          ],
+          "list-candidates": [
+          {
+            "position": 1,
+            "name": "Johannes Waldmann"
+          },
+          {
+            "position": 2,
+            "name": "Anke Pohlschmidt"
+          },
+          {
+            "position": 3,
+            "name": "Hermann-Josef Vogt"
+          },
+          {
+            "position": 4,
+            "name": "Tanja Bukelis-Graudenz"
+          },
+          {
+            "position": 5,
+            "name": "Niklas Sticht"
+          },
+          {
+            "position": 6,
+            "name": "Anja Postruschnik"
+          },
+          {
+            "position": 7,
+            "name": "Michael Spiekermann-Blankertz"
+          },
+          {
+            "position": 8,
+            "name": "Claudia Ley"
+          },
+          {
+            "position": 9,
+            "name": "Heiner Kiekebusch"
+          },
+          {
+            "position": 10,
+            "name": "Theresa Petrausch"
+          },
+          {
+            "position": 11,
+            "name": "Thomas Tauber"
+          },
+          {
+            "position": 12,
+            "name": "Margarete Schäpers"
+          },
+          {
+            "position": 13,
+            "name": "Franz-Dieter Seiwert"
+          },
+          {
+            "position": 14,
+            "name": "Peter Amadeus Schneider"
+          },
+          {
+            "position": 15,
+            "name": "Anton Büning"
+          },
+          {
+            "position": 16,
+            "name": "Carmen Hambrügge"
+          },
+          {
+            "position": 17,
+            "name": "Jan-Peter Klingelhöfer"
+          },
+          {
+            "position": 18,
+            "name": "Johanna Holtrup"
+          },
+          {
+            "position": 19,
+            "name": "Andre Kretschmer"
+          },
+          {
+            "position": 20,
+            "name": "Meike Hiller"
+          },
+          {
+            "position": 21,
+            "name": "Matthis Tasler"
+          },
+          {
+            "position": 22,
+            "name": "Frieda Schmitz"
+          },
+          {
+            "position": 23,
+            "name": "Patrick Dieker"
+          },
+          {
+            "position": 24,
+            "name": "Matthias Fischer"
+          },
+          {
+            "position": 25,
+            "name": "Ludger Schöning"
+          },
+          {
+            "position": 26,
+            "name": "Ludger Mensmann"
+          },
+          {
+            "position": 27,
+            "name": "Niko Gernitz"
+          },
+          {
+            "position": 28,
+            "name": "Kathrin Vierhaus"
+          },
+          {
+            "position": 29,
+            "name": "Holk Opitz"
+          },
+          {
+            "position": 30,
+            "name": "Dr. Ellen Ehring"
+          },
+          {
+            "position": 31,
+            "name": "Merlin Mönnich"
+          },
+          {
+            "position": 32,
+            "name": "Renate Gernitz"
+          },
+          {
+            "position": 33,
+            "name": "Achim Peltzer"
+          },
+          {
+            "position": 34,
+            "name": "Felix Höppner"
+          }
+        ]
+      },
+      {
+        "identifier": "greens",
+        "short": "GRÜNE",
+        "name": "BÜNDNIS 90/DIE GRÜNEN",
+        "colorcode": "#1fa12d",
+        "districts-candidates": [
+          {
+            "district-number": 1,
+            "candidate-name": "Tanja Werner"
+          },
+          {
+            "district-number": 2,
+            "candidate-name": "Kathrin Brochtrup"
+          },
+          {
+            "district-number": 3,
+            "candidate-name": "Hanna Hüwe"
+          },
+          {
+            "district-number": 4,
+            "candidate-name": "Mareike Lada"
+          },
+          {
+            "district-number": 5,
+            "candidate-name": "Ursula Niermann"
+          },
+          {
+            "district-number": 6,
+            "candidate-name": "Norbert Vorgelpohl"
+          },
+          {
+            "district-number": 7,
+            "candidate-name": "Erich Prinz"
+          },
+          {
+            "district-number": 8,
+            "candidate-name": "Mareike Raack"
+          },
+          {
+            "district-number": 9,
+            "candidate-name": "Lotte Volkhardt"
+          },
+          {
+            "district-number": 10,
+            "candidate-name": "Tim Schreiber"
+          },
+          {
+            "district-number": 11,
+            "candidate-name": "Florian Kübber"
+          },
+          {
+            "district-number": 12,
+            "candidate-name": "Patrick Jansen"
+          },
+          {
+            "district-number": 13,
+            "candidate-name": "Isabelle Wewers"
+          },
+          {
+            "district-number": 14,
+            "candidate-name": "Julius Wessels"
+          },
+          {
+            "district-number": 15,
+            "candidate-name": "Wilfried Brüggemann"
+          },
+          {
+            "district-number": 16,
+            "candidate-name": "Lars Reichmann"
+          },
+          {
+            "district-number": 17,
+            "candidate-name": "Anke Brandmeier"
+          },
+          {
+            "district-number": 18,
+            "candidate-name": "Dennis Sonne"
+          },
+          {
+            "district-number": 19,
+            "candidate-name": "Uta Spräner"
+          },
+          {
+            "district-number": 20,
+            "candidate-name": "Susanne Diekmann"
+          },
+          {
+            "district-number": 21,
+            "candidate-name": "Paul Bergmann"
+          },
+          {
+            "district-number": 22,
+            "candidate-name": "Nico Stürmer"
+          },
+          {
+            "district-number": 23,
+            "candidate-name": "Waltraud Oertel"
+          },
+          {
+            "district-number": 24,
+            "candidate-name": "Winfried Weber"
+          },
+          {
+            "district-number": 25,
+            "candidate-name": "Bettina Scholz"
+          },
+          {
+            "district-number": 26,
+            "candidate-name": "Heiner Bartel"
+          },
+          {
+            "district-number": 27,
+            "candidate-name": "Berthold Rieger"
+          }
+        ],
+        "list-candidates": [
+          {
+            "position": 1,
+            "name": "Mareike Raack"
+          },
+          {
+            "position": 2,
+            "name": "Patrick Jansen"
+          },
+          {
+            "position": 3,
+            "name": "Uta Spräner"
+          },
+          {
+            "position": 4,
+            "name": "Norbert Vogelpohl"
+          },
+          {
+            "position": 5,
+            "name": "Ursula Niermann"
+          },
+          {
+            "position": 6,
+            "name": "Tobias Hopf"
+          },
+          {
+            "position": 7,
+            "name": "Isabelle Wewers"
+          },
+          {
+            "position": 8,
+            "name": "Josef Flögel"
+          },
+          {
+            "position": 9,
+            "name": "Kathrin Brochtrup"
+          },
+          {
+            "position": 10,
+            "name": "Winfried Weber"
+          },
+          {
+            "position": 11,
+            "name": "Stefanie Ring"
+          },
+          {
+            "position": 12,
+            "name": "Lars Reichmann"
+          },
+          {
+            "position": 13,
+            "name": "Lara Reiß"
+          },
+          {
+            "position": 14,
+            "name": "Holger Curdts"
+          },
+          {
+            "position": 15,
+            "name": "Anke Brandmeier"
+          },
+          {
+            "position": 16,
+            "name": "Ingo Klemisch"
+          },
+          {
+            "position": 17,
+            "name": "Susanne Diekmann"
+          },
+          {
+            "position": 18,
+            "name": "Erich Prinz"
+          },
+          {
+            "position": 19,
+            "name": "Stefanie Krawinkel"
+          },
+          {
+            "position": 20,
+            "name": "Richard Dammann"
+          },
+          {
+            "position": 21,
+            "name": "Kerstin Rusche"
+          },
+          {
+            "position": 22,
+            "name": "Hauke Reusch"
+          },
+          {
+            "position": 23,
+            "name": "Rabea Ring"
+          },
+          {
+            "position": 24,
+            "name": "Ulrich Kraft"
+          },
+          {
+            "position": 25,
+            "name": "Franka Bechatzek"
+          },
+          {
+            "position": 26,
+            "name": "Tim Schreiber"
+          },
+          {
+            "position": 27,
+            "name": "Anna Lena Abel"
+          },
+          {
+            "position": 28,
+            "name": "Julius Wessels"
+          },
+          {
+            "position": 29,
+            "name": "Tanja Werner"
+          },
+          {
+            "position": 30,
+            "name": "Ralf Wozniak"
+          },
+          {
+            "position": 31,
+            "name": "Waltraud Oertel"
+          }
+        ]
+      },
+      {
+        "identifier": "fdp",
+        "short": "FDP",
+        "name": "Freie Demokratische Partei",
+        "colorcode": "#feed01"
+      },
+      {
+        "identifier": "left",
+        "short": "LINKE",
+        "name": "DIE LINKE",
+        "colorcode": "#b52269"
+      },
+      {
+        "identifier": "afd",
+        "short": "AfD",
+        "name": "Alternative für Deutschland",
+        "colorcode": "#009ee0"
+      },
+      {
+        "identifier": "uwg",
+        "short": "UWG",
+        "name": "UWG im Kreis Coesfeld",
+        "colorcode": "#448582"
+      },
+      {
+        "identifier": "family",
+        "short": "FAMILIE",
+        "name": "Familienpartei",
+        "colorcode": "#00CCFF"
+      },
+      {
+        "identifier": "volt",
+        "short": "Volt",
+        "name": "Volt Deutschland",
+        "colorcode": "#502379"
+      }
+    ],
+    "poll-results": {
+      "cdu": 46.95,
+      "greens": 21.73,
+      "spd": 16.89,
+      "left": 2.26,
+      "fdp": 5.52,
+      "afd": 0.62,
+      "uwg": 3.9,
+      "family": 2.12
+    },
+    "past-district-results": {
+      "1": {
+        "cdu": 52.19,
+        "spd": 16.30,
+        "greens": 14.07,
+        "fdp": 3.28,
+        "uwg": 8.76,
+        "left": 1.78,
+        "family": 0.89,
+        "afd": 2.74
+      },
+      "2": {
+        "cdu": 47.61,
+        "spd": 20.49,
+        "greens": 16.96,
+        "fdp": 7.35,
+        "uwg": 4.11,
+        "left": 1.76,
+        "family": 1.72
+      },
+      "3": {
+        "cdu": 43.37,
+        "spd": 17.21,
+        "greens": 25.74,
+        "fdp": 6.66,
+        "uwg": 0.76,
+        "left": 2,
+        "family": 4.27
+      },
+      "4": {
+        "cdu": 53.83,
+        "spd": 13.88,
+        "greens": 20.43,
+        "fdp": 3.96,
+        "uwg": 2.59,
+        "left": 2.63,
+        "family": 2.68
+      },
+      "5": {
+        "cdu": 52.23,
+        "spd": 17.20,
+        "greens": 17.10,
+        "fdp": 3.83,
+        "uwg": 3.75,
+        "left": 1.86,
+        "family": 4.33
+      },
+      "6": {
+        "cdu": 35.16,
+        "spd": 25.93,
+        "greens": 25.03,
+        "fdp": 3.75,
+        "uwg": 3.62,
+        "left": 2.75,
+        "family": 3.77
+      },
+      "7": {
+        "cdu": 40.25,
+        "spd": 15.17,
+        "greens": 27.39,
+        "fdp": 7.74,
+        "uwg": 3.26,
+        "left": 1.86,
+        "family": 4.33
+      },
+      "8": {
+        "cdu": 33.16,
+        "spd": 17.63,
+        "greens": 30.7,
+        "fdp": 4.03,
+        "uwg": 7.4,
+        "left": 1.88,
+        "family": 3.26,
+        "afd": 1.93
+      },
+      "9": {
+        "cdu": 41.79,
+        "spd": 21.96,
+        "greens": 24.07,
+        "fdp": 5.02,
+        "uwg": 2.02,
+        "left": 3.56,
+        "family": 1.75
+      },
+      "10": {
+        "cdu": 39.09,
+        "spd": 27.7,
+        "greens": 18.71,
+        "fdp": 6.74,
+        "uwg": 2.01,
+        "left": 3.74,
+        "family": 2.01
+      },
+      "11": {
+        "cdu": 54.55,
+        "spd": 16.42,
+        "greens": 19.18,
+        "fdp": 5.13,
+        "uwg": 1.5,
+        "left": 1.63,
+        "family": 1.59
+      },
+      "12": {
+        "cdu": 60.73,
+        "spd": 13.74,
+        "greens": 15.41,
+        "fdp": 4.06,
+        "uwg": 1.75,
+        "left": 2.82,
+        "family": 1.48
+      },
+      "13": {
+        "cdu": 37.13,
+        "spd": 18.87,
+        "greens": 33.95,
+        "fdp": 5.90,
+        "uwg": 0.77,
+        "left": 1.67,
+        "family": 1.72
+      },
+      "14": {
+        "cdu": 46.12,
+        "spd": 11.73,
+        "greens": 27.86,
+        "fdp": 8.01,
+        "uwg": 1.51,
+        "left": 2.29,
+        "family": 2.49
+      },
+      "15": {
+        "cdu": 43.92,
+        "spd": 16.43,
+        "greens": 25.23,
+        "fdp": 7.46,
+        "uwg": 2.56,
+        "left": 1.76,
+        "family": 0.55,
+        "afd": 2.08
+      },
+      "16": {
+        "cdu": 44.84,
+        "spd": 18.55,
+        "greens": 24.18,
+        "fdp": 4.84,
+        "uwg": 2.88,
+        "left": 3.12,
+        "family": 1.59
+      },
+      "17": {
+        "cdu": 52.76,
+        "spd": 12.82,
+        "greens": 20.31,
+        "fdp": 8.37,
+        "uwg": 2.88,
+        "left": 1.87,
+        "family": 0.99
+      },
+      "18": {
+        "cdu": 48.58,
+        "spd": 17.81,
+        "greens": 18.83,
+        "fdp": 5.27,
+        "uwg": 5.52,
+        "left": 1.9,
+        "family": 2.1
+      },
+      "19": {
+        "cdu": 43.91,
+        "spd": 14.2,
+        "greens": 26.35,
+        "fdp": 5.31,
+        "uwg": 5.74,
+        "left": 2.05,
+        "family": 2.43
+      },
+      "20": {
+        "cdu": 51.99,
+        "spd": 14.85,
+        "greens": 19.91,
+        "fdp": 3.98,
+        "uwg": 4.49,
+        "left": 2.7,
+        "family": 2.09
+      },
+      "21": {
+        "cdu": 58.31,
+        "spd": 11.39,
+        "greens": 15.78,
+        "fdp": 4.39,
+        "uwg": 2.46,
+        "left": 2.02,
+        "family": 1.1,
+        "afd": 4.54
+      },
+      "22": {
+        "cdu": 53.63,
+        "spd": 12.64,
+        "greens": 17.67,
+        "fdp": 4.4,
+        "uwg": 3.91,
+        "left": 2.5,
+        "family": 1.13,
+        "afd": 4.12
+      },
+      "23": {
+        "cdu": 51.53,
+        "spd": 15.32,
+        "greens": 18.88,
+        "fdp": 4.63,
+        "uwg": 5.8,
+        "left": 1.71,
+        "family": 2.16
+      },
+      "24": {
+        "cdu": 42.22,
+        "spd": 13.06,
+        "greens": 22.18,
+        "fdp": 6.23,
+        "uwg": 12.59,
+        "left": 2.39,
+        "family": 1.32
+      },
+      "25": {
+        "cdu": 39.87,
+        "spd": 16.78,
+        "greens": 23.72,
+        "fdp": 8.46,
+        "uwg": 7.37,
+        "left": 2.23,
+        "family": 1.57
+      },
+      "26": {
+        "cdu": 57.26,
+        "spd": 11.23,
+        "greens": 18.11,
+        "fdp": 5.62,
+        "uwg": 4.07,
+        "left": 2.39,
+        "family": 1.32
+      },
+      "27": {
+        "cdu": 46.95,
+        "spd": 16.89,
+        "greens": 21.73,
+        "fdp": 5.52,
+        "uwg": 3.90,
+        "left": 2.26,
+        "family": 2.12,
+        "afd": 0.62
+      }
+    },
+    "past-results": {
+      "cdu": {
+        "Anzahl": 52542,
+        "Prozent": 46.95
+      },
+      "spd": {
+        "Anzahl": 18902,
+        "Prozent": 16.89
+      },
+      "greens": {
+        "Anzahl": 24319,
+        "Prozent": 21.73
+      },
+      "fdp": {
+        "Anzahl": 6175,
+        "Prozent": 5.52
+      },
+      "left": {
+        "Anzahl": 2528,
+        "Prozent": 2.26
+      },
+      "afd": {
+        "Anzahl": 697,
+        "Prozent": 0.62
+      },
+      "uwg": {
+        "Anzahl": 4360,
+        "Prozent": 3.9
+      },
+      "family": {
+        "Anzahl": 2376,
+        "Prozent": 2.12
+      }
+    }
+  }
