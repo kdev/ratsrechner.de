@@ -116,7 +116,117 @@
         "identifier": "cdu",
         "short": "CDU",
         "name": "Christlich Demokratische Union Deutschlands",
-        "colorcode": "#191919"
+        "colorcode": "#191919",
+        "districts-candidates": [
+          {
+            "district-number": 1,
+            "candidate-name": "Angelika Selhorst"
+          },
+          {
+            "district-number": 2,
+            "candidate-name": "Ludger Wobbe"
+          },
+          {
+            "district-number": 3,
+            "candidate-name": "Stephan Holtkamp"
+          },
+          {
+            "district-number": 4,
+            "candidate-name": "Achim Hirtz"
+          },
+          {
+            "district-number": 5,
+            "candidate-name": "Claus Löcken"
+          },
+          {
+            "district-number": 6,
+            "candidate-name": "Valentin Merschhemke"
+          },
+          {
+            "district-number": 7,
+            "candidate-name": "Hendrik Klöpper"
+          },
+          {
+            "district-number": 8,
+            "candidate-name": "Jan Büscher"
+          },
+          {
+            "district-number": 9,
+            "candidate-name": "Klaus Viktor Kleerbaum"
+          },
+          {
+            "district-number": 10,
+            "candidate-name": "Stephan Dweir"
+          },
+          {
+            "district-number": 11,
+            "candidate-name": "Wilhelm Wessels"
+          },
+          {
+            "district-number": 12,
+            "candidate-name": "Andreas Weiling"
+          },
+          {
+            "district-number": 13,
+            "candidate-name": "Martin Bontrup"
+          },
+          {
+            "district-number": 14,
+            "candidate-name": "Jens Thewes"
+          },
+          {
+            "district-number": 15,
+            "candidate-name": "Mechtild Volpert-Bertling"
+          },
+          {
+            "district-number": 16,
+            "candidate-name": "Ulrike Prott"
+          },
+          {
+            "district-number": 17,
+            "candidate-name": "Michael Merten"
+          },
+          {
+            "district-number": 18,
+            "candidate-name": "Anton Holz"
+          },
+          {
+            "district-number": 19,
+            "candidate-name": "Rainer Bolte"
+          },
+          {
+            "district-number": 20,
+            "candidate-name": "Dr. Julian llendrof"
+          },
+          {
+            "district-number": 21,
+            "candidate-name": "Hartmut Rulle"
+          },
+          {
+            "district-number": 22,
+            "candidate-name": "Ralf Danielczyk"
+          },
+          {
+            "district-number": 23,
+            "candidate-name": "Franz Pohlmann"
+          },
+          {
+            "district-number": 24,
+            "candidate-name": "Frederik Deitert"
+          },
+          {
+            "district-number": 25,
+            "candidate-name": "Markus Klaus"
+          },
+          {
+            "district-number": 26,
+            "candidate-name": "Günter Mondwurf"
+          },
+          {
+            "district-number": 27,
+            "candidate-name": "Dr. Christian Vogdt"
+          }
+        ]
       },
       {
         "identifier": "spd",
