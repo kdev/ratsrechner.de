@@ -3,8 +3,8 @@
       "election-name": "Kommunalwahl 2025",
       "election-date": "2025-09-14",
       "seat-allocation": {
-        "key": "rock",
-        "name": "Rock"
+        "key": "sainte-lague",
+        "name": "Sainte-Laguë"
       },
       "data-source": "/data/2025/election.json"
     },
