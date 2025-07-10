@@ -61,8 +61,10 @@ const PartyListItem = React.memo(({
                         {party.short}
                     </Typography>
 
-                    {/* Zeige Anzahl der gewonnenen Wahlkreise an */}
-                    {seatAllocation && seatAllocation.key === 'rock' && directMandates[party.identifier] > 0 && (
+
+
+                    {/* Zeige Anzahl der gewonnenen Wahlkreise an - für beide Verfahren */}
+                    {seatAllocation && directMandates[party.identifier] > 0 && (
                         <Chip
                             label={`${directMandates[party.identifier]} WK`}
                             size="small"
@@ -527,14 +529,12 @@ function Sidebar({
         // Berechne die Anzahl der erfolgreichen Einzelbewerber
         const independentSeats = Object.values(independentCandidates || {}).filter(Boolean).length;
 
-        let seats;
-        if (method === 'rock' && Object.keys(directMandates).length > 0) {
-            seats = calculateSeats(method, partyPercentages, totalSeats, directMandates, independentSeats);
+        // Für beide Methoden (rock und sainte-lague) die Direktmandate berücksichtigen
+        if (Object.keys(directMandates).length > 0) {
+            return calculateSeats(method, partyPercentages, totalSeats, directMandates, independentSeats);
         } else {
-            seats = calculateSeats(method, partyPercentages, totalSeats, {}, independentSeats);
+            return calculateSeats(method, partyPercentages, totalSeats, {}, independentSeats);
         }
-
-        return seats;
     }, [corporationData, seatAllocation, totalPercentage, directMandates, partyPercentages, independentCandidates]);
 
 

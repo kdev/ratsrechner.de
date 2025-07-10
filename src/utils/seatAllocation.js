@@ -3,13 +3,19 @@
  */
 
 /**
- * Berechnet die Sitzverteilung nach dem Sainte-Laguë-Verfahren
+ * Berechnet die Sitzverteilung nach dem Sainte-Laguë-Verfahren mit Überhang- und Ausgleichsmandaten
  * @param {Object} partyPercentages - Objekt mit Partei-IDs als Schlüssel und Prozenten als Werte
  * @param {number} totalSeats - Gesamtzahl der zu verteilenden Sitze
+ * @param {Object} directMandates - Objekt mit Partei-IDs als Schlüssel und Anzahl gewonnener Wahlkreise als Werte
  * @param {number} independentSeats - Anzahl der Sitze, die bereits an Einzelbewerber vergeben wurden
  * @returns {Object} - Objekt mit Partei-IDs als Schlüssel und zugeteilten Sitzen als Werte
  */
-export const sainteLague = (partyPercentages, totalSeats, independentSeats = 0) => {
+export const sainteLague = (partyPercentages, totalSeats, directMandates = {}, independentSeats = 0) => {
+    // Ensure directMandates is an object
+    if (typeof directMandates !== 'object' || directMandates === null) {
+        directMandates = {};
+    }
+    
     // Reduziere die Gesamtsitzzahl um die Sitze der Einzelbewerber
     const remainingSeats = totalSeats - independentSeats;
     
@@ -24,9 +30,9 @@ export const sainteLague = (partyPercentages, totalSeats, independentSeats = 0) 
     });
 
     // Initialisiere Sitze für jede Partei mit 0
-    const seats = {};
+    const proportionalSeats = {};
     Object.keys(votes).forEach(partyId => {
-        seats[partyId] = 0;
+        proportionalSeats[partyId] = 0;
     });
 
     // Verteile die Sitze nach dem Sainte-Laguë-Verfahren
@@ -36,7 +42,7 @@ export const sainteLague = (partyPercentages, totalSeats, independentSeats = 0) 
 
         Object.keys(votes).forEach(partyId => {
             // Sainte-Laguë-Divisor: 2 * erhaltene Sitze + 1
-            const divisor = 2 * seats[partyId] + 1;
+            const divisor = 2 * proportionalSeats[partyId] + 1;
             const quotient = parseFloat(votes[partyId]) / divisor;
 
             if (quotient > maxQuotient) {
@@ -46,12 +52,99 @@ export const sainteLague = (partyPercentages, totalSeats, independentSeats = 0) 
         });
 
         if (maxParty) {
-            seats[maxParty]++;
+            proportionalSeats[maxParty]++;
         }
     }
 
-    return seats;
+    // Wenn keine Direktmandate vorhanden sind oder ein leeres Objekt übergeben wurde,
+    // gib einfach die proportionale Verteilung zurück
+    if (!directMandates || Object.keys(directMandates).length === 0) {
+        return proportionalSeats;
+    }
+
+    // Prüfe auf Überhangmandate
+    let hasOverhangMandate = false;
+    let totalOverhangSeats = 0;
+    
+    // Stelle sicher, dass directMandates für alle Parteien definiert ist
+    const directMandatesCopy = { ...directMandates };
+    Object.keys(votes).forEach(partyId => {
+        if (directMandatesCopy[partyId] === undefined) {
+            directMandatesCopy[partyId] = 0;
+        }
+    });
+
+    // Berechne Überhangmandate
+    Object.keys(directMandatesCopy).forEach(partyId => {
+        if (proportionalSeats[partyId] !== undefined && 
+            directMandatesCopy[partyId] > proportionalSeats[partyId]) {
+            hasOverhangMandate = true;
+            totalOverhangSeats += directMandatesCopy[partyId] - proportionalSeats[partyId];
+        }
+    });
+
+    // Wenn keine Überhangmandate existieren, gib die proportionale Verteilung zurück
+    if (!hasOverhangMandate) {
+        // Stelle sicher, dass jede Partei mindestens ihre Direktmandate erhält
+        const finalSeats = { ...proportionalSeats };
+        Object.keys(directMandatesCopy).forEach(partyId => {
+            if (finalSeats[partyId] !== undefined && 
+                finalSeats[partyId] < directMandatesCopy[partyId]) {
+                finalSeats[partyId] = directMandatesCopy[partyId];
+            }
+        });
+        return finalSeats;
+    }
+
+    // Berechne Ausgleichsmandate
+    // 1. Berechne die neue Gesamtsitzzahl (ursprüngliche + Überhangmandate)
+    const newTotalSeats = remainingSeats + totalOverhangSeats;
+    
+    // 2. Berechne die Stimmenanteile
+    const totalVotes = Object.values(votes).reduce((sum, vote) => sum + parseFloat(vote), 0);
+    const voteShares = {};
+    Object.keys(votes).forEach(partyId => {
+        voteShares[partyId] = parseFloat(votes[partyId]) / totalVotes;
+    });
+    
+    // 3. Verteile die Sitze nach Sainte-Laguë mit der neuen Gesamtsitzzahl
+    const adjustedSeats = {};
+    Object.keys(votes).forEach(partyId => {
+        adjustedSeats[partyId] = 0;
+    });
+    
+    for (let i = 0; i < newTotalSeats; i++) {
+        let maxQuotient = 0;
+        let maxParty = null;
+
+        Object.keys(votes).forEach(partyId => {
+            const divisor = 2 * adjustedSeats[partyId] + 1;
+            const quotient = parseFloat(votes[partyId]) / divisor;
+
+            if (quotient > maxQuotient) {
+                maxQuotient = quotient;
+                maxParty = partyId;
+            }
+        });
+
+        if (maxParty) {
+            adjustedSeats[maxParty]++;
+        }
+    }
+    
+    // 4. Stelle sicher, dass jede Partei mindestens ihre Direktmandate erhält
+    const finalSeats = { ...adjustedSeats };
+    Object.keys(directMandatesCopy).forEach(partyId => {
+        if (finalSeats[partyId] !== undefined && 
+            finalSeats[partyId] < directMandatesCopy[partyId]) {
+            finalSeats[partyId] = directMandatesCopy[partyId];
+        }
+    });
+    
+    return finalSeats;
 };
+
+
 
 /**
  * Berechnet die Wahlkreissieger basierend auf den Wahlkreis-Stimmen
@@ -333,7 +426,7 @@ export const rock = (partyPercentages, totalSeats, directMandates = {}, independ
 export const calculateSeats = (method, partyPercentages, totalSeats, directMandates = {}, independentSeats = 0) => {
     switch (method) {
         case 'sainte-lague':
-            return sainteLague(partyPercentages, totalSeats, independentSeats);
+            return sainteLague(partyPercentages, totalSeats, directMandates, independentSeats);
         case 'rock':
             return rock(partyPercentages, totalSeats, directMandates, independentSeats);
         // Hier können weitere Verfahren hinzugefügt werden
