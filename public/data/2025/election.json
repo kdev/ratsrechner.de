@@ -14,5 +14,9 @@
     "coe": {
       "name": "Kreis Coesfeld",
       "data-source": "/data/2025/coe.json"
+    },
+    "moenchenglasbach": {
+      "name": "Stadt Mönchengladbach",
+      "data-source": "/data/2025/moenchengladbach.json"
     }
   }
