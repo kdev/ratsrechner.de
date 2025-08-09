@@ -108,7 +108,7 @@
       "identifier": "cdu",
       "short": "CDU",
       "name": "Christlich Demokratische Union Deutschlands",
-      "colorcode": "#3399ff",
+      "colorcode": "#191919",
       "districts-candidates": [
         { "district-number": 1, "candidate-name": "Hötzel, Melanie" },
         { "district-number": 2, "candidate-name": "Stoltze, Jessica" },
@@ -171,7 +171,7 @@
       ]
     },
     {
-      "identifier": "gruene",
+      "identifier": "greens",
       "short": "GRÜNE",
       "name": "BÜNDNIS 90/DIE GRÜNEN",
       "colorcode": "#64a12d",
