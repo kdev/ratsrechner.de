@@ -20,59 +20,51 @@ import {
     Chip,
     Checkbox
 } from '@mui/material';
-// Bedingter Import für @mui/x-charts mit Fallback
-let Gauge;
-try {
-    const chartsModule = await import('@mui/x-charts');
-    Gauge = chartsModule.Gauge;
-} catch (error) {
-    console.warn('@mui/x-charts not available, using fallback Gauge component');
-    // Fallback Gauge-Komponente
-    Gauge = ({ value, valueMax, width = 50, height = 50, text, sx }) => {
-        const percentage = valueMax > 0 ? (value / valueMax) * 100 : 0;
-        const radius = Math.min(width, height) / 2 - 5;
-        const circumference = 2 * Math.PI * radius;
-        const strokeDasharray = circumference;
-        const strokeDashoffset = circumference - (percentage / 100) * circumference;
-        
-        return (
-            <Box sx={{ position: 'relative', width, height, display: 'flex', alignItems: 'center', justifyContent: 'center', ...sx }}>
-                <svg width={width} height={height} style={{ transform: 'rotate(-90deg)' }}>
-                    <circle
-                        cx={width / 2}
-                        cy={height / 2}
-                        r={radius}
-                        fill="none"
-                        stroke="#e0e0e0"
-                        strokeWidth="4"
-                    />
-                    <circle
-                        cx={width / 2}
-                        cy={height / 2}
-                        r={radius}
-                        fill="none"
-                        stroke="#f44336"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeDasharray={strokeDasharray}
-                        strokeDashoffset={strokeDashoffset}
-                        style={{ transition: 'stroke-dashoffset 0.3s ease' }}
-                    />
-                </svg>
-                <Box sx={{ 
-                    position: 'absolute', 
-                    fontSize: '0.45rem', 
-                    fontWeight: 'normal', 
-                    letterSpacing: '-0.1em',
-                    textAlign: 'center',
-                    lineHeight: 1
-                }}>
-                    {text ? text({ value, valueMax }) : `${value} / ${valueMax}`}
-                </Box>
+// Einfache Gauge-Komponente ohne externe Abhängigkeiten
+const Gauge = ({ value, valueMax, width = 50, height = 50, text, sx }) => {
+    const percentage = valueMax > 0 ? (value / valueMax) * 100 : 0;
+    const radius = Math.min(width, height) / 2 - 5;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDasharray = circumference;
+    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+    
+    return (
+        <Box sx={{ position: 'relative', width, height, display: 'flex', alignItems: 'center', justifyContent: 'center', ...sx }}>
+            <svg width={width} height={height} style={{ transform: 'rotate(-90deg)' }}>
+                <circle
+                    cx={width / 2}
+                    cy={height / 2}
+                    r={radius}
+                    fill="none"
+                    stroke="#e0e0e0"
+                    strokeWidth="4"
+                />
+                <circle
+                    cx={width / 2}
+                    cy={height / 2}
+                    r={radius}
+                    fill="none"
+                    stroke="#2196f3"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray={strokeDasharray}
+                    strokeDashoffset={strokeDashoffset}
+                    style={{ transition: 'stroke-dashoffset 0.3s ease' }}
+                />
+            </svg>
+            <Box sx={{ 
+                position: 'absolute', 
+                fontSize: '0.45rem', 
+                fontWeight: 'normal', 
+                letterSpacing: '-0.1em',
+                textAlign: 'center',
+                lineHeight: 1
+            }}>
+                {text ? text({ value, valueMax }) : `${value} / ${valueMax}`}
             </Box>
-        );
-    };
-}
+        </Box>
+    );
+};
 
 import WarningIcon from '@mui/icons-material/Warning';
 import PersonIcon from '@mui/icons-material/Person';
