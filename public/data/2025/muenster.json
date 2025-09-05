@@ -1802,13 +1802,13 @@
     }
   ],
   "poll-results": {
-    "cdu": 33,
-    "greens": 30,
-    "spd": 14,
+    "cdu": 31,
+    "greens": 33,
+    "spd": 13,
     "volt": 4,
     "left": 8,
-    "fdp": 2,
-    "afd": 5,
+    "fdp": 3,
+    "afd": 4,
     "oedp": 1.25,
     "idl": 0.75,
     "the-party": 2
