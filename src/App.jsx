@@ -64,6 +64,8 @@ function App() {
   const [districtVotes, setDistrictVotes] = useState({});
   const [districtWinners, setDistrictWinners] = useState({});
   const [independentCandidates, setIndependentCandidates] = useState({});
+  const [liveResultsData, setLiveResultsData] = useState(null);
+  const [isLiveResultsActive, setIsLiveResultsActive] = useState(false);
 
   // Lade alle Wahlen aus /data/elections.json
   useEffect(() => {
@@ -155,6 +157,8 @@ function App() {
                             districtVotes={districtVotes}
                             districtWinners={districtWinners}
                             independentCandidates={independentCandidates}
+                            onLiveResultsDataChange={setLiveResultsData}
+                            onLiveResultsActiveChange={setIsLiveResultsActive}
                         />
                     </Paper>
                 </Grid>
@@ -167,6 +171,8 @@ function App() {
                             onDistrictVotesChange={handleDistrictVotesChange}
                             onDistrictWinnersChange={handleDistrictWinnersChange}
                             onIndependentCandidatesChange={handleIndependentCandidatesChange}
+                            liveResultsData={liveResultsData}
+                            isLiveResultsActive={isLiveResultsActive}
                         />
                     </Paper>
                 </Grid>

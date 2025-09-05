@@ -20,6 +20,7 @@ import {
     Chip,
     Checkbox
 } from '@mui/material';
+import { Gauge } from '@mui/x-charts/Gauge';
 import WarningIcon from '@mui/icons-material/Warning';
 import PersonIcon from '@mui/icons-material/Person';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -39,13 +40,27 @@ const DistrictTableRow = React.memo(({
     winningCandidate,
     corporationData,
     independentCandidates,
-    handleIndependentChange
+    handleIndependentChange,
+    liveResultsData,
+    isLiveResultsActive
 }) => {
     const total = districtTotals[district.number] || 0;
     const isOverLimit = total > 100.5;
     const isIndependent = independentCandidates[district.number] || false;
     const winningPartyData = !isIndependent && winningParty ?
         corporationData.parties.find(p => p.identifier === winningParty) : null;
+
+    // Live-Ergebnisse Daten für diesen Wahlkreis
+    const districtLiveData = liveResultsData?.find(row => 
+        parseInt(row['gebiet-nr']) === district.number
+    );
+    const anzahlSchnellmeldungen = districtLiveData ? parseInt(districtLiveData['anz-schnellmeldungen'] || '0') : 0;
+    const maxSchnellmeldungen = districtLiveData ? parseInt(districtLiveData['max-schnellmeldungen'] || '0') : 0;
+
+    // Debug: Zeige aktuelle Tabelle-Werte für diesen Wahlkreis
+    if (isLiveResultsActive && district.number <= 3) { // Nur für die ersten 3 Wahlkreise
+        console.log(`Wahlkreis ${district.number} - Aktuelle Tabelle-Werte:`, districtVotes[district.number]);
+    }
 
     return (
         <TableRow
@@ -54,6 +69,33 @@ const DistrictTableRow = React.memo(({
                 '&:hover': { bgcolor: 'action.hover' }
             }}
         >
+            {/* Live-Ergebnisse Gauge-Spalte - ERSTE SPALTE */}
+            {isLiveResultsActive && (
+                <TableCell align="center" sx={{ width: 80 }}>
+                    {maxSchnellmeldungen > 0 ? (
+                        <Gauge
+                            width={50}
+                            height={50}
+                            value={anzahlSchnellmeldungen}
+                            valueMax={maxSchnellmeldungen}
+
+                            text={({ value, valueMax }) => `${value} / ${valueMax}`}
+                            sx={{
+                                '& .MuiGauge-valueText': {
+                                    fontSize: '0.45rem',
+                                    fontWeight: 'normal',
+                                    letterSpacing: '-0.1em'
+                                }
+                            }}
+                        />
+                    ) : (
+                        <Typography variant="body2" color="text.secondary">
+                            Keine Daten
+                        </Typography>
+                    )}
+                </TableCell>
+            )}
+
             <TableCell
                 sx={{
                     position: 'relative',
@@ -102,6 +144,7 @@ const DistrictTableRow = React.memo(({
                         <TextField
                             type="number"
                             size="small"
+                            disabled={isLiveResultsActive}
                             inputProps={{
                                 min: 0,
                                 max: 100,
@@ -166,12 +209,14 @@ const DistrictTableRow = React.memo(({
 
 
 // Hauptkomponente
-function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDistrictWinnersChange, onIndependentCandidatesChange }) {
+function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDistrictWinnersChange, onIndependentCandidatesChange, liveResultsData, isLiveResultsActive }) {
     const [districtVotes, setDistrictVotes] = useState({});
     const [districtTotals, setDistrictTotals] = useState({});
     const [independentCandidates, setIndependentCandidates] = useState({});
+    const originalDistrictVotesRef = useRef({}); // Backup der ursprünglichen Poll-Daten
     const prevCorporationDataRef = useRef(null);
     const initializedRef = useRef(false);
+    const isProcessingLiveResultsRef = useRef(false); // Verhindert Endlosschleife
 
     const handleIndependentChange = useCallback((districtNumber, checked) => {
         const newIndependentCandidates = {
@@ -180,6 +225,75 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
         };
         setIndependentCandidates(newIndependentCandidates);
     }, [independentCandidates]);
+
+    // Funktion um Live-Ergebnisse in Prozentwerte umzuwandeln
+    const convertLiveResultsToPercentages = useCallback((liveData, partyMapping) => {
+        if (!liveData || !partyMapping) {
+            console.log('No live data or party mapping available');
+            return { liveDistrictVotes: {}, liveDistrictTotals: {} };
+        }
+
+        console.log('=== CSV DATA ANALYSIS ===');
+        console.log('Raw CSV data length:', liveData.length);
+        console.log('First 3 rows of CSV data:', liveData.slice(0, 3));
+        console.log('Party mapping:', partyMapping);
+
+        const liveDistrictVotes = {};
+        const liveDistrictTotals = {};
+
+        liveData.forEach((row, index) => {
+            console.log(`--- Processing CSV row ${index} ---`);
+            console.log('Raw row data:', row);
+            
+            const districtNumber = parseInt(row['gebiet-nr']);
+            const gueltigeStimmen = parseInt(row['D'] || '0');
+            const gebietName = row['gebiet-name'] || 'Unknown';
+            
+            console.log(`District: ${districtNumber} (${gebietName})`);
+            console.log(`Gültige Stimmen: ${gueltigeStimmen}`);
+            
+            if (districtNumber && gueltigeStimmen > 0) {
+                liveDistrictVotes[districtNumber] = {};
+                let totalPercentage = 0;
+
+                console.log('Processing parties for this district:');
+                
+                // Für jede Partei im Mapping
+                Object.entries(partyMapping).forEach(([csvColumn, partyId]) => {
+                    const stimmen = parseInt(row[csvColumn] || '0');
+                    const percentage = gueltigeStimmen > 0 ? (stimmen / gueltigeStimmen) * 100 : 0;
+                    
+                    liveDistrictVotes[districtNumber][partyId] = percentage.toFixed(2);
+                    totalPercentage += percentage;
+                    
+                    console.log(`  ${partyId} (${csvColumn}): ${stimmen} Stimmen = ${percentage.toFixed(1)}%`);
+                });
+
+                liveDistrictTotals[districtNumber] = totalPercentage;
+                console.log(`Total percentage for district ${districtNumber}: ${totalPercentage.toFixed(1)}%`);
+            } else {
+                console.log(`Skipping district ${districtNumber} - no valid data`);
+            }
+        });
+
+        console.log('=== FINAL CONVERSION RESULT ===');
+        console.log('Live district votes object:', liveDistrictVotes);
+        console.log('Live district totals object:', liveDistrictTotals);
+        
+        // Detaillierte Ausgabe der Ergebnisse
+        console.log('=== DETAILED LIVE RESULTS ===');
+        Object.keys(liveDistrictVotes).forEach(districtNumber => {
+            console.log(`Wahlkreis ${districtNumber}:`);
+            Object.entries(liveDistrictVotes[districtNumber]).forEach(([partyId, percentage]) => {
+                console.log(`  ${partyId}: ${percentage}%`);
+            });
+            console.log(`  Gesamt: ${liveDistrictTotals[districtNumber].toFixed(1)}%`);
+            console.log('---');
+        });
+        console.log('=== END DETAILED RESULTS ===');
+        
+        return { liveDistrictVotes, liveDistrictTotals };
+    }, []);
 
     // Debounced Funktion für Stimmänderungen
     const debouncedHandleVoteChange = useCallback(
@@ -424,6 +538,9 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
             setDistrictTotals(initialTotals);
             initializedRef.current = true;
 
+            // Speichere die ursprünglichen Poll-Daten als Backup
+            originalDistrictVotesRef.current = { ...initialVotes };
+
             // Benachrichtige die übergeordnete Komponente über die initialen Werte
             if (onDistrictVotesChange) {
                 onDistrictVotesChange(initialVotes);
@@ -441,6 +558,87 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
             initializedRef.current = false;
         }
     }, [corporationData]);
+
+    // Debug: Reagiere auf isLiveResultsActive Änderungen
+    useEffect(() => {
+        console.log('🔥 isLiveResultsActive changed to:', isLiveResultsActive);
+    }, [isLiveResultsActive]);
+
+    // Separater useEffect nur für Live-Ergebnisse
+    useEffect(() => {
+        if (!corporationData || !corporationData.districts || !corporationData.parties) {
+            return;
+        }
+
+        if (!isLiveResultsActive || !liveResultsData || !corporationData?.['live-results']?.['party-mapping'] || isProcessingLiveResultsRef.current) {
+            return;
+        }
+
+        console.log('🔥 PROCESSING LIVE RESULTS NOW!');
+        console.log('🔥 Live data:', liveResultsData);
+        console.log('🔥 Party mapping:', corporationData['live-results']['party-mapping']);
+        
+        // Verhindere Endlosschleife
+        isProcessingLiveResultsRef.current = true;
+        
+        // Erstelle Backup der ursprünglichen Daten beim ersten Aktivieren
+        if (Object.keys(originalDistrictVotesRef.current).length === 0 && Object.keys(districtVotes).length > 0) {
+            originalDistrictVotesRef.current = { ...districtVotes };
+            console.log('Backed up original district votes:', districtVotes);
+        }
+
+        // Konvertiere Live-Ergebnisse zu Prozentwerten
+        console.log('🔥 CALLING convertLiveResultsToPercentages NOW!');
+        const result = convertLiveResultsToPercentages(
+            liveResultsData, 
+            corporationData['live-results']['party-mapping']
+        );
+
+        console.log('🔥 Conversion result:', result);
+
+        if (Object.keys(result.liveDistrictVotes).length > 0) {
+            console.log('🔥 APPLYING LIVE RESULTS TO TABLE!');
+            console.log('🔥 Setting districtVotes state to:', result.liveDistrictVotes);
+            console.log('🔥 Setting districtTotals state to:', result.liveDistrictTotals);
+            
+            setDistrictVotes(result.liveDistrictVotes);
+            setDistrictTotals(result.liveDistrictTotals);
+            
+            // Benachrichtige die übergeordnete Komponente
+            if (onDistrictVotesChange) {
+                console.log('Notifying parent component of vote changes');
+                onDistrictVotesChange(result.liveDistrictVotes);
+            }
+        } else {
+            console.log('🔥 NO LIVE DISTRICT VOTES TO APPLY!');
+        }
+        
+        // Reset nach Verarbeitung
+        isProcessingLiveResultsRef.current = false;
+    }, [isLiveResultsActive, liveResultsData, corporationData]);
+
+    // Separater useEffect für das Zurücksetzen auf Poll-Daten
+    useEffect(() => {
+        if (!isLiveResultsActive && Object.keys(originalDistrictVotesRef.current).length > 0) {
+            console.log('Restoring original poll data:', originalDistrictVotesRef.current);
+            setDistrictVotes(originalDistrictVotesRef.current);
+            
+            // Berechne Totals neu
+            const restoredTotals = {};
+            Object.keys(originalDistrictVotesRef.current).forEach(districtNumber => {
+                const total = Object.values(originalDistrictVotesRef.current[districtNumber]).reduce(
+                    (sum, vote) => sum + parseFloat(vote || 0), 0
+                );
+                restoredTotals[districtNumber] = total;
+            });
+            setDistrictTotals(restoredTotals);
+            
+            // Benachrichtige die übergeordnete Komponente
+            if (onDistrictVotesChange) {
+                onDistrictVotesChange(originalDistrictVotesRef.current);
+            }
+        }
+    }, [isLiveResultsActive, onDistrictVotesChange]);
 
     // Wenn keine Körperschaftsdaten vorhanden sind, zeige die normale Datenvorschau
     if (!corporationData || !corporationData.districts || !corporationData.parties) {
@@ -528,11 +726,25 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
     ));
 
     // Memoized TableHeader für bessere Performance
-    const TableHeader = React.memo(() => (
-        <TableHead>
-            <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Wahlkreis</TableCell>
-                {corporationData.parties.map(party => (
+const TableHeader = React.memo(({ isLiveResultsActive }) => (
+    <TableHead>
+        <TableRow>
+            {isLiveResultsActive && (
+                <TableCell sx={{ fontWeight: 'bold', textAlign: 'center', width: 80 }}>
+                    <Tooltip 
+                        title="Eingegangene Schnellmeldungen pro Wahlkreis" 
+                        placement="top"
+                        arrow
+                        enterTouchDelay={0}
+                    >
+                        <IconButton size="small" sx={{ p: 0.5 }}>
+                            <InfoIcon fontSize="small" color="action" />
+                        </IconButton>
+                    </Tooltip>
+                </TableCell>
+            )}
+            <TableCell sx={{ fontWeight: 'bold' }}>Wahlkreis</TableCell>
+            {corporationData.parties.map(party => (
                     <TableCell
                         key={party.identifier}
                         align="center"
@@ -581,7 +793,7 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
 
             <TableContainer component={Paper} sx={{ mb: 3 }}>
                 <Table size="small" sx={{ '& .MuiTableCell-root': { py: 0.5, px: 1 } }}>
-                    <TableHeader />
+                    <TableHeader isLiveResultsActive={isLiveResultsActive} />
                     <TableBody>
                         {corporationData.districts.map((district) => (
                             <DistrictTableRow
@@ -596,6 +808,8 @@ function DataPreview({ dataPreview, corporationData, onDistrictVotesChange, onDi
                                 corporationData={corporationData}
                                 independentCandidates={independentCandidates}
                                 handleIndependentChange={handleIndependentChange}
+                                liveResultsData={liveResultsData}
+                                isLiveResultsActive={isLiveResultsActive}
                             />
                         ))}
                     </TableBody>

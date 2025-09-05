@@ -25,7 +25,10 @@ import {
     CardContent,
     Alert,
     InputAdornment,
-    Autocomplete
+    Autocomplete,
+    Switch,
+    FormControlLabel,
+    CircularProgress
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { debounce } from 'lodash';
@@ -39,7 +42,9 @@ const PartyListItem = React.memo(({
     directMandates,
     seatDistribution,
     handleOpenPopover,
-    totalPercentage
+    effectiveTotalPercentage,
+    isLiveResultsActive,
+    livePartyPercentages
 }) => {
     return (
         <ListItem
@@ -93,15 +98,20 @@ const PartyListItem = React.memo(({
                                 MozAppearance: 'textfield',
                             }
                         }}
-                        value={partyPercentage || ''}
+                        value={
+                            isLiveResultsActive && livePartyPercentages[party.identifier] !== undefined
+                                ? livePartyPercentages[party.identifier]
+                                : (partyPercentage || '')
+                        }
                         onChange={(e) => handlePercentageChange(party.identifier, e.target.value)}
+                        disabled={isLiveResultsActive}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">%</InputAdornment>,
                         }}
                     />
 
                     {/* Sitzanzeige mit Popover für Kandidaten */}
-                    {totalPercentage <= 100 && seatDistribution[party.identifier] !== undefined && (
+                    {effectiveTotalPercentage <= 100 && seatDistribution[party.identifier] !== undefined && (
                         <Box sx={{ ml: 2 }}>
                             <Chip
                                 label={`${seatDistribution[party.identifier]} Sitze`}
@@ -294,6 +304,55 @@ const CorporationSelect = React.memo(({ selectedCorporation, onCorporationChange
     </FormControl>
 ));
 
+// Live-Ergebnisse Switch Komponente
+const LiveResultsSwitch = React.memo(({
+    liveResultsEnabled,
+    onLiveResultsChange,
+    isLiveResultsAvailable,
+    isLiveResultsActive,
+    isLoading
+}) => (
+    <Box sx={{ mt: 2, mb: 2 }}>
+        <FormControlLabel
+            control={
+                <Switch
+                    checked={liveResultsEnabled}
+                    onChange={(e) => onLiveResultsChange(e.target.checked)}
+                    disabled={!isLiveResultsAvailable || isLoading}
+                    color="primary"
+                />
+            }
+            label={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2">
+                        Live Ergebnisse
+                    </Typography>
+                    {isLiveResultsActive && liveResultsEnabled && (
+                        <Box
+                            sx={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: '50%',
+                                bgcolor: 'error.main',
+                                ml: 1,
+                                animation: 'pulse 1.5s ease-in-out infinite',
+                                '@keyframes pulse': {
+                                    '0%': { opacity: 1 },
+                                    '50%': { opacity: 0.3 },
+                                    '100%': { opacity: 1 }
+                                }
+                            }}
+                        />
+                    )}
+                    {isLoading && (
+                        <CircularProgress size={12} sx={{ ml: 1 }} />
+                    )}
+                </Box>
+            }
+        />
+    </Box>
+));
+
 
 
 const SeatAllocationInfo = React.memo(({ selectedElection, seatAllocation }) => (
@@ -312,7 +371,7 @@ const SeatAllocationInfo = React.memo(({ selectedElection, seatAllocation }) => 
 const CorporationInfo = React.memo(({
     corporationData,
     totalAllocatedSeats,
-    totalPercentage,
+    effectiveTotalPercentage,
     seatDistribution,
     seatAllocation,
     numDirectSeats,
@@ -329,7 +388,7 @@ const CorporationInfo = React.memo(({
             </Typography>
 
             {/* Chart für die Sitzverteilung */}
-            {totalPercentage <= 100 && Object.keys(seatDistribution).length > 0 && (
+            {effectiveTotalPercentage <= 100 && Object.keys(seatDistribution).length > 0 && (
                 <Box sx={{ mt: 3 }}>
                     <SeatDistributionChart
                         seatDistribution={seatDistribution}
@@ -354,13 +413,13 @@ const CorporationInfo = React.memo(({
 ));
 
 const SeatSummary = React.memo(({
-    totalPercentage,
+    effectiveTotalPercentage,
     totalAllocatedSeats,
     corporationData,
     seatAllocation,
     successfulIndependents = 0
 }) => (
-    totalPercentage <= 100 && totalAllocatedSeats > 0 && (
+    effectiveTotalPercentage <= 100 && totalAllocatedSeats > 0 && (
         <Paper
             variant="outlined"
             sx={{ mt: 3, p: 2, bgcolor: 'grey.50' }}
@@ -393,7 +452,9 @@ function Sidebar({
     corporationData,
     districtVotes,
     districtWinners,
-    independentCandidates
+    independentCandidates,
+    onLiveResultsDataChange,
+    onLiveResultsActiveChange
 }) {
     // Erhalte das Sitzzuteilungsverfahren aus der ausgewählten Wahl
     const seatAllocation = selectedElection && elections[selectedElection] && elections[selectedElection]['seat-allocation'];
@@ -413,8 +474,18 @@ function Sidebar({
     // State für die aktuell ausgewählte Partei im Popover
     const [selectedPartyForPopover, setSelectedPartyForPopover] = useState('');
 
+    // Live-Ergebnisse State
+    const [liveResultsEnabled, setLiveResultsEnabled] = useState(false);
+    const [isLiveResultsAvailable, setIsLiveResultsAvailable] = useState(false);
+    const [isLiveResultsActive, setIsLiveResultsActive] = useState(false);
+    const [isLoadingLiveResults, setIsLoadingLiveResults] = useState(false);
+    const [liveResultsData, setLiveResultsData] = useState(null);
+    const [liveResultsError, setLiveResultsError] = useState(null);
+    const [livePartyPercentages, setLivePartyPercentages] = useState({});
+
     const prevDirectMandatesRef = useRef({});
     const prevSeatsRef = useRef({});
+    const liveResultsIntervalRef = useRef(null);
 
     // Debounced Funktion für Prozentänderungen
     const debouncedHandlePercentageChange = useCallback(
@@ -436,6 +507,166 @@ function Sidebar({
             debouncedHandlePercentageChange.cancel();
         };
     }, [debouncedHandlePercentageChange]);
+
+    // Konvertiere Live-Ergebnisse zu Gesamtprozenten für die Sidebar
+    const convertLiveResultsToPartyPercentages = useCallback((liveData, partyMapping) => {
+        if (!liveData || !partyMapping) {
+            return {};
+        }
+
+        console.log('🔥 Converting live results to party percentages for sidebar');
+        console.log('Live data length:', liveData.length);
+        console.log('Party mapping:', partyMapping);
+
+        const partyTotals = {};
+        let totalValidVotes = 0;
+
+        // Summiere Stimmen pro Partei über alle Wahlkreise
+        liveData.forEach((row, index) => {
+            const gueltigeStimmen = parseInt(row['D'] || '0');
+            totalValidVotes += gueltigeStimmen;
+
+            console.log(`Wahlkreis ${row['gebiet-nr']}: ${gueltigeStimmen} gültige Stimmen`);
+
+            // Für jede Partei im Mapping
+            Object.entries(partyMapping).forEach(([csvColumn, partyId]) => {
+                const stimmen = parseInt(row[csvColumn] || '0');
+                
+                if (!partyTotals[partyId]) {
+                    partyTotals[partyId] = 0;
+                }
+                partyTotals[partyId] += stimmen;
+                
+                console.log(`  ${partyId} (${csvColumn}): +${stimmen} Stimmen`);
+            });
+        });
+
+        console.log('Party totals:', partyTotals);
+        console.log('Total valid votes:', totalValidVotes);
+
+        // Berechne Prozente
+        const percentages = {};
+        Object.entries(partyTotals).forEach(([partyId, votes]) => {
+            const percentage = totalValidVotes > 0 ? (votes / totalValidVotes) * 100 : 0;
+            percentages[partyId] = percentage.toFixed(2);
+            console.log(`${partyId}: ${votes} Stimmen = ${percentage.toFixed(2)}%`);
+        });
+
+        console.log('Final party percentages:', percentages);
+        return percentages;
+    }, []);
+
+    // CSV-Abruf Funktion
+    const fetchLiveResults = useCallback(async (url) => {
+        try {
+            console.log('Starting fetch for URL:', url);
+            setIsLoadingLiveResults(true);
+            setLiveResultsError(null);
+            
+            let response;
+            
+            // Versuche zuerst den Vite-Proxy
+            try {
+                const proxyUrl = url.replace('https://wahlen.citeq.de', '/api/csv-proxy');
+                console.log('Trying Vite proxy URL:', proxyUrl);
+                response = await fetch(proxyUrl);
+                console.log('Vite proxy response status:', response.status);
+            } catch (proxyError) {
+                console.log('Vite proxy failed, trying PHP proxy:', proxyError);
+                // Fallback: PHP-Proxy
+                const phpProxyUrl = `/proxy.php?url=${encodeURIComponent(url)}`;
+                response = await fetch(phpProxyUrl);
+                console.log('PHP proxy response status:', response.status);
+            }
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const csvText = await response.text();
+            console.log('CSV text length:', csvText.length);
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(';');
+            console.log('CSV headers:', headers);
+            
+            // Parse CSV Daten
+            const results = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim()) {
+                    const values = lines[i].split(';');
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header.trim()] = values[index]?.trim() || '';
+                    });
+                    results.push(row);
+                }
+            }
+            
+            return results;
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Live-Ergebnisse:', error);
+            setLiveResultsError(error.message);
+            return null;
+        } finally {
+            setIsLoadingLiveResults(false);
+        }
+    }, []);
+
+    // Prüfe ob Live-Ergebnisse verfügbar sind und ob Schnellmeldungen vorhanden sind
+    const checkLiveResultsAvailability = useCallback(async (corporationData) => {
+        console.log('Checking live results availability for:', corporationData);
+        console.log('Live results config:', corporationData?.['live-results']);
+        
+        if (!corporationData?.['live-results']?.enabled || !corporationData?.['live-results']?.url) {
+            console.log('Live results not available - missing config or URL');
+            setIsLiveResultsAvailable(false);
+            setIsLiveResultsActive(false);
+            return;
+        }
+
+        console.log('Fetching live results from:', corporationData['live-results'].url);
+        const data = await fetchLiveResults(corporationData['live-results'].url);
+        if (!data) {
+            setIsLiveResultsAvailable(false);
+            setIsLiveResultsActive(false);
+            return;
+        }
+
+        // Prüfe ob in mindestens einem Gebiet Schnellmeldungen > 0 sind
+        const hasSchnellmeldungen = data.some(row => {
+            const anzahlSchnellmeldungen = parseInt(row['anz-schnellmeldungen'] || '0');
+            return anzahlSchnellmeldungen > 0;
+        });
+
+        setIsLiveResultsAvailable(true);
+        // isLiveResultsActive wird nur durch den Switch gesteuert, nicht durch Schnellmeldungen
+        
+        if (hasSchnellmeldungen) {
+            setLiveResultsData(data);
+            setLiveResultsEnabled(true); // Automatisch aktivieren wenn Schnellmeldungen vorhanden
+            setIsLiveResultsActive(true); // Spalte anzeigen wenn Schnellmeldungen vorhanden
+        }
+    }, [fetchLiveResults]);
+
+    // Live-Ergebnisse Handler
+    const handleLiveResultsChange = useCallback((enabled) => {
+        setLiveResultsEnabled(enabled);
+        
+        if (enabled && corporationData?.['live-results']?.url) {
+            // Setze isLiveResultsActive sofort auf true wenn Switch aktiviert wird
+            setIsLiveResultsActive(true);
+            
+            // Starte sofort einen Abruf
+            fetchLiveResults(corporationData['live-results'].url).then(data => {
+                if (data) {
+                    setLiveResultsData(data);
+                }
+            });
+        } else {
+            // Setze isLiveResultsActive auf false wenn Switch deaktiviert wird
+            setIsLiveResultsActive(false);
+        }
+    }, [corporationData, fetchLiveResults]);
 
     // Handler für Prozentänderungen
     const handlePercentageChange = useCallback((partyId, value) => {
@@ -487,6 +718,73 @@ function Sidebar({
         }
     }, [corporationData]);
 
+    // Prüfe Live-Ergebnisse Verfügbarkeit wenn corporationData sich ändert
+    useEffect(() => {
+        if (corporationData) {
+            checkLiveResultsAvailability(corporationData);
+        } else {
+            setIsLiveResultsAvailable(false);
+            setIsLiveResultsActive(false);
+            setLiveResultsEnabled(false);
+            setLiveResultsData(null);
+        }
+    }, [corporationData, checkLiveResultsAvailability]);
+
+    // Live-Ergebnisse Intervall
+    useEffect(() => {
+        if (liveResultsEnabled && corporationData?.['live-results']?.url) {
+            // Starte Intervall für alle 60 Sekunden
+            liveResultsIntervalRef.current = setInterval(() => {
+                fetchLiveResults(corporationData['live-results'].url).then(data => {
+                    if (data) {
+                        setLiveResultsData(data);
+                        // isLiveResultsActive bleibt true, solange der Switch aktiviert ist
+                        // Die Spalte wird immer angezeigt, wenn Live-Ergebnisse aktiviert sind
+                    }
+                });
+            }, 60000); // 60 Sekunden
+
+            return () => {
+                if (liveResultsIntervalRef.current) {
+                    clearInterval(liveResultsIntervalRef.current);
+                }
+            };
+        } else {
+            // Stoppe Intervall wenn Live-Ergebnisse deaktiviert
+            if (liveResultsIntervalRef.current) {
+                clearInterval(liveResultsIntervalRef.current);
+                liveResultsIntervalRef.current = null;
+            }
+        }
+    }, [liveResultsEnabled, corporationData, fetchLiveResults]);
+
+    // Konvertiere Live-Ergebnisse zu Parteien-Prozenten
+    useEffect(() => {
+        if (isLiveResultsActive && liveResultsData && corporationData?.['live-results']?.['party-mapping']) {
+            console.log('🔥 Converting live results to party percentages in sidebar');
+            const percentages = convertLiveResultsToPartyPercentages(
+                liveResultsData, 
+                corporationData['live-results']['party-mapping']
+            );
+            setLivePartyPercentages(percentages);
+        } else {
+            setLivePartyPercentages({});
+        }
+    }, [isLiveResultsActive, liveResultsData, corporationData, convertLiveResultsToPartyPercentages]);
+
+    // Leite Live-Ergebnisse-Daten an die App weiter
+    useEffect(() => {
+        if (onLiveResultsDataChange) {
+            onLiveResultsDataChange(liveResultsData);
+        }
+    }, [liveResultsData, onLiveResultsDataChange]);
+
+    useEffect(() => {
+        if (onLiveResultsActiveChange) {
+            onLiveResultsActiveChange(isLiveResultsActive);
+        }
+    }, [isLiveResultsActive, onLiveResultsActiveChange]);
+
     // Memoized Berechnung der Wahlkreissieger
     const memoizedDirectMandates = useMemo(() => {
         if (Object.keys(districtWinners).length === 0) {
@@ -519,7 +817,21 @@ function Sidebar({
 
     // Memoized Berechnung der Sitzverteilung
     const memoizedSeatDistribution = useMemo(() => {
-        if (!corporationData || !seatAllocation || totalPercentage > 100) {
+        if (!corporationData || !seatAllocation) {
+            return {};
+        }
+
+        // Verwende Live-Ergebnisse wenn aktiv, sonst manuelle Eingaben
+        const percentagesToUse = isLiveResultsActive && Object.keys(livePartyPercentages).length > 0 
+            ? livePartyPercentages 
+            : partyPercentages;
+
+        // Prüfe ob Prozente gültig sind (nur bei manuellen Eingaben)
+        const totalPercentageToCheck = isLiveResultsActive 
+            ? Object.values(percentagesToUse).reduce((sum, val) => sum + parseFloat(val || 0), 0)
+            : totalPercentage;
+
+        if (totalPercentageToCheck > 100) {
             return {};
         }
 
@@ -529,13 +841,20 @@ function Sidebar({
         // Berechne die Anzahl der erfolgreichen Einzelbewerber
         const independentSeats = Object.values(independentCandidates || {}).filter(Boolean).length;
 
+        console.log('🔥 Calculating seat distribution with:', {
+            isLiveResultsActive,
+            percentagesToUse,
+            totalPercentageToCheck,
+            directMandates
+        });
+
         // Für beide Methoden (rock und sainte-lague) die Direktmandate berücksichtigen
         if (Object.keys(directMandates).length > 0) {
-            return calculateSeats(method, partyPercentages, totalSeats, directMandates, independentSeats);
+            return calculateSeats(method, percentagesToUse, totalSeats, directMandates, independentSeats);
         } else {
-            return calculateSeats(method, partyPercentages, totalSeats, {}, independentSeats);
+            return calculateSeats(method, percentagesToUse, totalSeats, {}, independentSeats);
         }
-    }, [corporationData, seatAllocation, totalPercentage, directMandates, partyPercentages, independentCandidates]);
+    }, [corporationData, seatAllocation, totalPercentage, directMandates, partyPercentages, independentCandidates, isLiveResultsActive, livePartyPercentages]);
 
 
     // Aktualisiere seatDistribution, wenn sich memoizedSeatDistribution ändert
@@ -549,6 +868,14 @@ function Sidebar({
     const totalAllocatedSeats = useMemo(() => {
         return Object.values(seatDistribution).reduce((sum, seats) => sum + seats, 0);
     }, [seatDistribution]);
+
+    // Berechne die Gesamtprozente basierend auf Live-Ergebnissen oder manuellen Eingaben
+    const effectiveTotalPercentage = useMemo(() => {
+        if (isLiveResultsActive && Object.keys(livePartyPercentages).length > 0) {
+            return Object.values(livePartyPercentages).reduce((sum, val) => sum + parseFloat(val || 0), 0);
+        }
+        return totalPercentage;
+    }, [isLiveResultsActive, livePartyPercentages, totalPercentage]);
 
     // Berechne die Anzahl der Wahlkreise (Direktmandate) - die Hälfte der regulären Ratssitze
     const numDirectSeats = corporationData ? Math.floor(corporationData['cuncil-seats'] / 2) : 0;
@@ -596,10 +923,24 @@ function Sidebar({
                 corporations={corporations}
             />
 
+            <LiveResultsSwitch
+                liveResultsEnabled={liveResultsEnabled}
+                onLiveResultsChange={handleLiveResultsChange}
+                isLiveResultsAvailable={isLiveResultsAvailable}
+                isLiveResultsActive={isLiveResultsActive}
+                isLoading={isLoadingLiveResults}
+            />
+
+            {liveResultsError && (
+                <Alert severity="error" sx={{ mt: 1, mb: 2 }}>
+                    Fehler beim Abrufen der Live-Ergebnisse: {liveResultsError}
+                </Alert>
+            )}
+
             <CorporationInfo
                 corporationData={corporationData}
                 totalAllocatedSeats={totalAllocatedSeats}
-                totalPercentage={totalPercentage}
+                effectiveTotalPercentage={effectiveTotalPercentage}
                 seatDistribution={seatDistribution}
                 seatAllocation={seatAllocation}
                 numDirectSeats={numDirectSeats}
@@ -631,9 +972,9 @@ function Sidebar({
                                 sx={{ ml: 1 }}
                             /> */}
                         </Box>
-                        {totalPercentage > 100 && (
+                        {effectiveTotalPercentage > 100 && (
                             <Alert severity="error" sx={{ py: 0, px: 1 }}>
-                                Max. 100%! (Aktuell: {totalPercentage.toFixed(1)}%)
+                                Max. 100%! (Aktuell: {effectiveTotalPercentage.toFixed(1)}%)
                             </Alert>
                         )}
                     </Box>
@@ -649,7 +990,9 @@ function Sidebar({
                                 directMandates={directMandates}
                                 seatDistribution={seatDistribution}
                                 handleOpenPopover={handleOpenPopover}
-                                totalPercentage={totalPercentage}
+                                effectiveTotalPercentage={effectiveTotalPercentage}
+                                isLiveResultsActive={isLiveResultsActive}
+                                livePartyPercentages={livePartyPercentages}
                             />
                         ))}
                         <ListItem
@@ -693,7 +1036,11 @@ function Sidebar({
                                                 MozAppearance: 'textfield',
                                             }
                                         }}
-                                        value={(100 - totalPercentage).toFixed(1)}
+                                        value={
+                                            isLiveResultsActive 
+                                                ? (100 - Object.values(livePartyPercentages).reduce((sum, val) => sum + parseFloat(val || 0), 0)).toFixed(2)
+                                                : (100 - totalPercentage).toFixed(1)
+                                        }
                                         InputProps={{
                                             endAdornment: <InputAdornment position="end">%</InputAdornment>,
                                         }}
@@ -719,7 +1066,7 @@ function Sidebar({
 
                     {/* Zusammenfassung der Sitzverteilung */}
                     <SeatSummary
-                        totalPercentage={totalPercentage}
+                        effectiveTotalPercentage={effectiveTotalPercentage}
                         totalAllocatedSeats={totalAllocatedSeats}
                         corporationData={corporationData}
                         seatAllocation={seatAllocation}
