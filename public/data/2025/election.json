@@ -18,5 +18,9 @@
     "moenchenglasbach": {
       "name": "Stadt Mönchengladbach",
       "data-source": "/data/2025/moenchengladbach.json"
+    },
+    "sanktaugustin": {
+      "name": "Stadt Sankt Augustin",
+      "data-source": "/data/2025/sanktaugustin.json"
     }
   }
