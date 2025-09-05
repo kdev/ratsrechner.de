@@ -20,7 +20,8 @@ import {
     Chip,
     Checkbox
 } from '@mui/material';
-import { Gauge } from '@mui/x-charts/Gauge';
+import { Gauge } from '@mui/x-charts';
+
 import WarningIcon from '@mui/icons-material/Warning';
 import PersonIcon from '@mui/icons-material/Person';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
