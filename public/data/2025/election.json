@@ -22,5 +22,9 @@
     "sanktaugustin": {
       "name": "Stadt Sankt Augustin",
       "data-source": "/data/2025/sanktaugustin.json"
+    },
+    "billerbeck": {
+      "name": "Stadt Billerbeck",
+      "data-source": "/data/2025/billerbeck.json.json"
     }
   }
