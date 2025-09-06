@@ -25,6 +25,6 @@
     },
     "billerbeck": {
       "name": "Stadt Billerbeck",
-      "data-source": "/data/2025/billerbeck.json.json"
+      "data-source": "/data/2025/billerbeck.json"
     }
   }
