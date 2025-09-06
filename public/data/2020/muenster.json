@@ -1,5 +1,39 @@
 {
-    "cuncil-seats": 66,
+  "cuncil-seats": 66,
+  "live-results": {
+    "enabled": true,
+    "url": "https://wahlen.citeq.de/20200913/05515000/html5/Open-Data-Ratswahl-NRW165.csv",
+    "csv-mapping": {
+      "wahl": "Ratswahl",
+      "datum": "13.09.2020",
+      "ags": "05515000",
+      "gebiet-nr": "gebiet-nr",
+      "gebiet-name": "gebiet-name",
+      "max-schnellmeldungen": "max-schnellmeldungen",
+      "anz-schnellmeldungen": "anz-schnellmeldungen",
+      "wahlberechtigte-ohne-sperrvermerk": "A1",
+      "wahlberechtigte-mit-sperrvermerk": "A2",
+      "wahlberechtigte-nicht-im-verzeichnis": "A3",
+      "wahlberechtigte-insgesamt": "A",
+      "waehler": "B",
+      "waehler-mit-wahlschein": "B2",
+      "ungueltige-stimmen": "C",
+      "gueltige-stimmen": "D"
+    },
+    "party-mapping": {
+      "D1": "cdu",
+      "D2": "spd",
+      "D3": "greens",
+      "D4": "fdp",
+      "D5": "left",
+      "D6": "afd",
+      "D7": "pdh",
+      "D8": "oedp",
+      "D9": "idl",
+      "D10": "the-party",
+      "D11": "the-party",
+      "D12": "volt"
+    },
     "districts": [
       {
         "number": 1,
@@ -2989,4 +3023,3 @@
       }
     ]
   }
-  
