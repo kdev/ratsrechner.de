@@ -1,0 +1,578 @@
+{
+    "cuncil-seats": 54,
+    "districts": [
+      {
+        "number": 1,
+        "name": "Katholisches Pfarrheim"
+      },
+      {
+        "number": 2,
+        "name": "Kita Kunterbunt"
+      },
+      {
+        "number": 3,
+        "name": "Billerbeck"
+      },
+      {
+        "number": 4,
+        "name": "Johannis-Grundschulgebäude"
+      },
+      {
+        "number": 5,
+        "name": "Geschwister-Eichenwald-Schule"
+      },
+      {
+        "number": 6,
+        "name": "Ludgeri-Grundschulgebäude"
+      },
+      {
+        "number": 7,
+        "name": "Kindergarten St. Gerburgis"
+      },
+      {
+        "number": 8,
+        "name": "DRK-Kindergarten Oberlau"
+      },
+      {
+        "number": 9,
+        "name": "Bahnhof Billerbeck"
+      },
+      {
+        "number": 10,
+        "name": "Alte Landwirtschaftsschule"
+      },
+      {
+        "number": 11,
+        "name": "Schulzentrum Don-Bosco-Gebäude"
+      },
+      {
+        "number": 12,
+        "name": "Sportpark Billerbeck"
+      },
+      {
+        "number": 13,
+        "name": "Gaststätte Thumann"
+      }
+    ],
+    "results": {},
+    "parties": [
+      {
+        "identifier": "cdu",
+        "short": "CDU",
+        "name": "Christlich Demokratische Union Deutschlands",
+        "colorcode": "#191919",
+        "districts-candidates": [
+          {
+            "district-number": 1,
+            "candidate-name": "Frederik Salomon"
+          },
+          {
+            "district-number": 2,
+            "candidate-name": "Lisa-Sophie Meinert-Miltrup"
+          },
+          {
+            "district-number": 3,
+            "candidate-name": "Tayfun Averbeck"
+          },
+          {
+            "district-number": 4,
+            "candidate-name": "Marco Lennertz"
+          },
+          {
+            "district-number": 5,
+            "candidate-name": "Tatiana Holtmann"
+          },
+          {
+            "district-number": 6,
+            "candidate-name": "Matthias Ahlers"
+          },
+          {
+            "district-number": 7,
+            "candidate-name": "Frank Wieland"
+          },
+          {
+            "district-number": 8,
+            "candidate-name": "Ann Katrin Meinert-Vormann"
+          },
+          {
+            "district-number": 9,
+            "candidate-name": "Jan-Philipp Schwaaf"
+          },
+          {
+            "district-number": 10,
+            "candidate-name": "Peter Rose"
+          },
+          {
+            "district-number": 11,
+            "candidate-name": "Christoph Ueding"
+          },
+          {
+            "district-number": 12,
+            "candidate-name": "Bernd Kösters"
+          },
+          {
+            "district-number": 13,
+            "candidate-name": "Marius Große Lordemann"
+          }
+        ]
+      },
+      {
+        "identifier": "spd",
+        "short": "SPD",
+        "name": "Sozialdemokratische Partei Deutschlands",
+        "colorcode": "#e2001a",
+        "districts-candidates": [
+          {
+              "district-number": 1,
+              "candidate-name": "Hendrikje Zimmermann"
+          },
+          {
+              "district-number": 2,
+              "candidate-name": "Thomas Walbaum"
+          },
+          {
+              "district-number": 3,
+              "candidate-name": "Patrick Dieker"
+          },
+          {
+              "district-number": 4,
+              "candidate-name": "Margarete Köhler"
+          },
+          {
+              "district-number": 5,
+              "candidate-name": "Mario Krieger"
+          },
+          {
+              "district-number": 6,
+              "candidate-name": "Sarah Bosse"
+          },
+          {
+              "district-number": 7,
+              "candidate-name": "Dennis Rampe"
+          },
+          {
+              "district-number": 8,
+              "candidate-name": "Cornelius Demming"
+          },
+          {
+              "district-number": 9,
+              "candidate-name": "Carsten Rampe"
+          },
+          {
+              "district-number": 10,
+              "candidate-name": "Christian Friemel"
+          },
+          {
+              "district-number": 11,
+              "candidate-name": "Petra Beil"
+          },
+          {
+              "district-number": 12,
+              "candidate-name": "Thomas Tauber"
+          },
+          {
+              "district-number": 13,
+              "candidate-name": "Dr. Christian Köhler"
+          }
+          ],
+          "list-candidates": [
+          {
+            "position": 1,
+            "name": "Tom Tauber"
+          },
+          {
+            "position": 2,
+            "name": "Sarah Bosse"
+          },
+          {
+            "position": 3,
+            "name": "Thomas Walbaum"
+          },
+          {
+            "position": 4,
+            "name": "Hendrikje Zimmermann"
+          },
+          {
+            "position": 5,
+            "name": "Carsten Rampe"
+          },
+          {
+            "position": 6,
+            "name": "Margarete Köhler"
+          },
+          {
+            "position": 7,
+            "name": "Patrick Dieker"
+          },
+          {
+            "position": 8,
+            "name": "Petra Beil"
+          },
+          {
+            "position": 9,
+            "name": "Mario Krieger"
+          },
+          {
+            "position": 10,
+            "name": "Monika Reimer"
+          },
+          {
+            "position": 11,
+            "name": "Dr. Christian Köhler"
+          },
+          {
+            "position": 12,
+            "name": "Bianca Dieker"
+          },
+          {
+            "position": 13,
+            "name": "Dennis Rampe"
+          },
+          {
+            "position": 14,
+            "name": "Christian Friemel"
+          },
+          {
+            "position": 15,
+            "name": "Cornelius Demming"
+          },
+          {
+            "position": 16,
+            "name": "Manfred van Os"
+          }
+        ]
+      },
+      {
+        "identifier": "greens",
+        "short": "GRÜNE",
+        "name": "BÜNDNIS 90/DIE GRÜNEN",
+        "colorcode": "#1fa12d",
+        "districts-candidates": [
+          {
+            "district-number": 1,
+            "candidate-name": "Maggie Rawe"
+          },
+          {
+            "district-number": 2,
+            "candidate-name": "Andrea Gomez"
+          },
+          {
+            "district-number": 3,
+            "candidate-name": "Robert Dürhager"
+          },
+          {
+            "district-number": 4,
+            "candidate-name": "Birgit de Wendt"
+          },
+          {
+            "district-number": 5,
+            "candidate-name": "Niklas Laukamp"
+          },
+          {
+            "district-number": 6,
+            "candidate-name": "Dagmar Caluori"
+          },
+          {
+            "district-number": 7,
+            "candidate-name": "Beatrix Ahlers"
+          },
+          {
+            "district-number": 8,
+            "candidate-name": "Hanna Hüwe"
+          },
+          {
+            "district-number": 9,
+            "candidate-name": "Michael Röschenkemper"
+          },
+          {
+            "district-number": 10,
+            "candidate-name": "Ralf Flüchter"
+          },
+          {
+            "district-number": 11,
+            "candidate-name": "Marina Brinckmann"
+          },
+          {
+            "district-number": 12,
+            "candidate-name": "Ulrich Schlieker"
+          },
+          {
+            "district-number": 13,
+            "candidate-name": "Horst Bechtloff"
+          }
+        ],
+        "list-candidates": [
+          {
+            "position": 1,
+            "name": "Hanna Hüwe"
+          },
+          {
+            "position": 2,
+            "name": "Robert Dürhager"
+          },
+          {
+            "position": 3,
+            "name": "Beatrix Ahlers"
+          },
+          {
+            "position": 4,
+            "name": "Michael Röschenkemper"
+          },
+          {
+            "position": 5,
+            "name": "Andrea Gomez"
+          },
+          {
+            "position": 6,
+            "name": "Niklas Laukamp"
+          },
+          {
+            "position": 7,
+            "name": "Marina Brinckmann"
+          },
+          {
+            "position": 8,
+            "name": "Dagmar Caluori"
+          },
+          {
+            "position": 9,
+            "name": "Maggie Rawe"
+          },
+          {
+            "position": 10,
+            "name": "Dennis Brinckmann"
+          },
+          {
+            "position": 11,
+            "name": "Ulrich Schlieker"
+          },
+          {
+            "position": 12,
+            "name": "Ralf Flüchter"
+          },
+          {
+            "position": 13,
+            "name": "Dr. Rolf Sommer"
+          },
+          {
+            "position": 14,
+            "name": "Horst Bechtloff"
+          },
+          {
+            "position": 15,
+            "name": "Christof Peter-Dosch"
+          }
+        ]
+      },
+      {
+        "identifier": "fdp",
+        "short": "FDP",
+        "name": "Freie Demokratische Partei",
+        "colorcode": "#feed01",
+        "list-candidates": [
+          {
+            "position": 1,
+            "name": "Iris Pawliczek"
+          },
+          {
+            "position": 2,
+            "name": "Matthias Schürmann"
+          },
+          {
+            "position": 3,
+            "name": "Sandra Ter Bahne"
+          },
+          {
+            "position": 4,
+            "name": "Jan Middendorf"
+          },
+          {
+            "position": 5,
+            "name": "Dr. Rainer Hertel"
+          },
+          {
+            "position": 6,
+            "name": "Marc Diekel"
+          },
+          {
+            "position": 7,
+            "name": "Jan Rasing"
+          },
+          {
+            "position": 8,
+            "name": "Maximilian Middendorf"
+          }
+        ]
+      },
+      {
+        "identifier": "family",
+        "short": "FAMILIE",
+        "name": "Familienpartei",
+        "colorcode": "#00CCFF",
+        "list-candidates": [
+          {
+            "position": 1,
+            "name": "Niels Geuking"
+          },
+          {
+            "position": 2,
+            "name": "Noah Hauling"
+          },
+          {
+            "position": 3,
+            "name": "Lisa Glose"
+          },
+          {
+            "position": 4,
+            "name": "Tanja Isfort"
+          },
+          {
+            "position": 5,
+            "name": "Karin Geuking"
+          },
+          {
+            "position": 6,
+            "name": "Jamie Hauling"
+          },
+          {
+            "position": 7,
+            "name": "Gisela Berling"
+          },
+          {
+            "position": 8,
+            "name": "Erik Geuking"
+          },
+          {
+            "position": 9,
+            "name": "Gabriele Hauling"
+          },
+          {
+            "position": 10,
+            "name": "Michael Berling"
+          }
+        ]
+      }
+    ],
+    "poll-results": {
+      "cdu": 47.03,
+      "greens": 24.82,
+      "spd": 17.77,
+      "fdp": 5.83,
+      "family": 4.56
+    },
+    "past-district-results": {
+      "1": {
+        "cdu": 46.24,
+        "greens": 19.47,
+        "spd": 17.48,
+        "fdp": 11.5,
+        "family": 5.31
+      },
+      "2": {
+        "cdu": 46.8,
+        "greens": 21.4,
+        "spd": 17.2,
+        "fdp": 10.6,
+        "family": 4
+      },
+      "3": {
+        "cdu": 37.76,
+        "greens": 29.52,
+        "spd": 23.11,
+        "fdp": 5.72,
+        "family": 3.89
+      },
+      "4": {
+        "cdu": 49.31,
+        "greens": 19.72,
+        "spd": 18.86,
+        "fdp": 5.36,
+        "family": 6.75
+      },
+      "5": {
+        "cdu": 49.81,
+        "greens": 19.46,
+        "spd": 19.65,
+        "fdp": 6.42,
+        "family": 4.67
+      },
+      "6": {
+        "cdu": 41.02,
+        "spd": 18.16,
+        "greens": 30.27,
+        "fdp": 4.69,
+        "family": 5.86
+      },
+      "7": {
+        "cdu": 43.01,
+        "spd": 15.73,
+        "greens": 31.29,
+        "fdp": 4.55,
+        "family": 5.42
+      },
+      "8": {
+        "cdu": 28.44,
+        "spd": 25.72,
+        "greens": 36.05,
+        "fdp": 4.71,
+        "family": 5.07
+      },
+      "9": {
+        "cdu": 39.31,
+        "spd": 21.19,
+        "greens": 30.25,
+        "fdp": 4.05,
+        "family": 5.20
+      },
+      "10": {
+        "cdu": 44.32,
+        "spd": 19.13,
+        "greens": 25.38,
+        "fdp": 4.92,
+        "family": 6.25
+      },
+      "11": {
+        "cdu": 67.53,
+        "spd": 11.69,
+        "greens": 14.10,
+        "fdp": 4.08,
+        "family": 2.6
+      },
+      "12": {
+        "cdu": 60.11,
+        "spd": 13.17,
+        "greens": 18.18,
+        "fdp": 6.31,
+        "family": 2.23
+      },
+      "13": {
+        "cdu": 55.89,
+        "spd": 11.03,
+        "greens": 27.10,
+        "fdp": 4.11,
+        "family": 1.87
+      }
+    },
+    "past-results": {
+      "cdu": {
+        "Anzahl": 3187,
+        "Prozent": 47.03
+      },
+      "spd": {
+        "Anzahl": 1204,
+        "Prozent": 17.77
+      },
+      "greens": {
+        "Anzahl": 1682,
+        "Prozent": 24.82
+      },
+      "fdp": {
+        "Anzahl": 395,
+        "Prozent": 5.83
+      },
+      "family": {
+        "Anzahl": 309,
+        "Prozent": 4.56
+      }
+    }
+  }
