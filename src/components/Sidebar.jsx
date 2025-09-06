@@ -565,19 +565,11 @@ function Sidebar({
             
             let response;
             
-            // Versuche zuerst den Vite-Proxy
-            try {
-                const proxyUrl = url.replace('https://wahlen.citeq.de', '/api/csv-proxy');
-                console.log('Trying Vite proxy URL:', proxyUrl);
-                response = await fetch(proxyUrl);
-                console.log('Vite proxy response status:', response.status);
-            } catch (proxyError) {
-                console.log('Vite proxy failed, trying PHP proxy:', proxyError);
-                // Fallback: PHP-Proxy
-                const phpProxyUrl = `/proxy.php?url=${encodeURIComponent(url)}`;
-                response = await fetch(phpProxyUrl);
-                console.log('PHP proxy response status:', response.status);
-            }
+            // Verwende direkt den PHP-Proxy (funktioniert sowohl in Development als auch Production)
+            const proxyUrl = `/proxy.php?url=${encodeURIComponent(url)}`;
+            console.log('Using PHP proxy URL:', proxyUrl);
+            response = await fetch(proxyUrl);
+            console.log('PHP proxy response status:', response.status);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
