@@ -774,6 +774,8 @@ function Sidebar({
             setLiveResultsData(data);
             setLiveResultsEnabled(true); // Automatisch aktivieren wenn Schnellmeldungen vorhanden
             setIsLiveResultsActive(true); // Spalte anzeigen wenn Schnellmeldungen vorhanden
+            setLastUpdateTime(new Date());
+            setNextUpdateTime(new Date(Date.now() + 60000));
         }
     }, [fetchLiveResults]);
 
