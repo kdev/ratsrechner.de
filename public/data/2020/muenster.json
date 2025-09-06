@@ -4,9 +4,6 @@
     "enabled": true,
     "url": "https://wahlen.citeq.de/20200913/05515000/html5/Open-Data-Ratswahl-NRW165.csv",
     "csv-mapping": {
-      "wahl": "Ratswahl",
-      "datum": "13.09.2020",
-      "ags": "05515000",
       "gebiet-nr": "gebiet-nr",
       "gebiet-name": "gebiet-name",
       "max-schnellmeldungen": "max-schnellmeldungen",

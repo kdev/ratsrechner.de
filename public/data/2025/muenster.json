@@ -4,9 +4,6 @@
     "enabled": true,
     "url": "https://wahlen.citeq.de/20250914/05515000/daten/opendata/Open-Data-05515000-Ratswahl-Wahlbezirk.csv",
     "csv-mapping": {
-      "datum": "datum",
-      "wahl": "wahl",
-      "ags": "ags",
       "gebiet-nr": "gebiet-nr",
       "gebiet-name": "gebiet-name",
       "max-schnellmeldungen": "max-schnellmeldungen",
