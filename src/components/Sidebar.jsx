@@ -3,6 +3,132 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { calculateSeats, calculateDistrictWinners } from '../utils/seatAllocation';
 import SeatDistributionChart from './SeatDistributionChart';
 import { getElectedCandidates } from '../utils/electionHelpers';
+
+// Timer-Gauge-Komponente für Live-Ergebnisse
+const LiveResultsTimer = ({ nextUpdateTime, lastUpdateTime }) => {
+    const [timeLeft, setTimeLeft] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        if (!nextUpdateTime) return;
+        
+        const updateTimer = () => {
+            const now = new Date();
+            const timeLeft = Math.max(0, nextUpdateTime.getTime() - now.getTime());
+            setTimeLeft(timeLeft);
+        };
+
+        updateTimer();
+        const interval = setInterval(updateTimer, 1000);
+
+        return () => clearInterval(interval);
+    }, [nextUpdateTime]);
+
+    if (!nextUpdateTime) return null;
+    
+    const secondsLeft = Math.ceil(timeLeft / 1000);
+    const progress = Math.max(0, Math.min(1, timeLeft / 60000)); // 0-1 basierend auf 60 Sekunden (umgekehrte Logik)
+
+    const formatTime = (seconds) => {
+        if (seconds <= 0) return '0s';
+        if (seconds < 60) return `${seconds}s`;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    };
+
+    const formatLastUpdate = (date) => {
+        if (!date) return '';
+        const now = new Date();
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        
+        if (minutes > 0) {
+            return `vor ${minutes}m ${seconds}s`;
+        } else {
+            return `vor ${seconds}s`;
+        }
+    };
+
+    return (
+        <Tooltip
+            title={
+                <Box>
+                    <Typography variant="caption" display="block">
+                        Nächste Aktualisierung: {formatTime(secondsLeft)}
+                    </Typography>
+                    {lastUpdateTime && (
+                        <Typography variant="caption" display="block" sx={{ opacity: 0.7 }}>
+                            Letzte Aktualisierung: {formatLastUpdate(lastUpdateTime)}
+                        </Typography>
+                    )}
+                </Box>
+            }
+            placement="top"
+            arrow
+        >
+            <Box
+                sx={{
+                    position: 'relative',
+                    width: 20,
+                    height: 20,
+                    ml: 1,
+                    cursor: 'pointer',
+                    opacity: isHovered ? 0.8 : 0.4,
+                    transition: 'opacity 0.2s ease',
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onTouchStart={() => setIsHovered(true)}
+                onTouchEnd={() => setTimeout(() => setIsHovered(false), 2000)}
+            >
+                {/* Hintergrund-Kreis */}
+                <svg width="20" height="20" style={{ transform: 'rotate(-90deg)' }}>
+                    <circle
+                        cx="10"
+                        cy="10"
+                        r="8"
+                        fill="none"
+                        stroke="#f5f5f5"
+                        strokeWidth="1.5"
+                    />
+                    {/* Progress-Kreis */}
+                    <circle
+                        cx="10"
+                        cy="10"
+                        r="8"
+                        fill="none"
+                        stroke="#757575"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 8}`}
+                        strokeDashoffset={`${2 * Math.PI * 8 * (1 - progress)}`}
+                        style={{ transition: 'stroke-dashoffset 0.3s ease' }}
+                    />
+                </svg>
+                {/* Zeit-Text */}
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        fontSize: '0.55rem',
+                        fontWeight: 'normal',
+                        color: '#757575',
+                        textAlign: 'center',
+                        lineHeight: 1,
+                        minWidth: '12px'
+                    }}
+                >
+                    {secondsLeft}
+                </Box>
+            </Box>
+        </Tooltip>
+    );
+};
+
 import {
     Box,
     Typography,
@@ -310,7 +436,9 @@ const LiveResultsSwitch = React.memo(({
     onLiveResultsChange,
     isLiveResultsAvailable,
     isLiveResultsActive,
-    isLoading
+    isLoading,
+    nextUpdateTime,
+    lastUpdateTime
 }) => (
     <Box sx={{ mt: 2, mb: 2 }}>
         <FormControlLabel
@@ -342,6 +470,12 @@ const LiveResultsSwitch = React.memo(({
                                     '100%': { opacity: 1 }
                                 }
                             }}
+                        />
+                    )}
+                    {isLiveResultsActive && nextUpdateTime && (
+                        <LiveResultsTimer 
+                            nextUpdateTime={nextUpdateTime}
+                            lastUpdateTime={lastUpdateTime}
                         />
                     )}
                     {isLoading && (
@@ -482,10 +616,13 @@ function Sidebar({
     const [liveResultsData, setLiveResultsData] = useState(null);
     const [liveResultsError, setLiveResultsError] = useState(null);
     const [livePartyPercentages, setLivePartyPercentages] = useState({});
+    const [lastUpdateTime, setLastUpdateTime] = useState(null);
+    const [nextUpdateTime, setNextUpdateTime] = useState(null);
 
     const prevDirectMandatesRef = useRef({});
     const prevSeatsRef = useRef({});
     const liveResultsIntervalRef = useRef(null);
+    const timerIntervalRef = useRef(null);
 
     // Debounced Funktion für Prozentänderungen
     const debouncedHandlePercentageChange = useCallback(
@@ -652,6 +789,8 @@ function Sidebar({
             fetchLiveResults(corporationData['live-results'].url).then(data => {
                 if (data) {
                     setLiveResultsData(data);
+                    setLastUpdateTime(new Date());
+                    setNextUpdateTime(new Date(Date.now() + 60000));
                 }
             });
         } else {
@@ -730,6 +869,8 @@ function Sidebar({
                 fetchLiveResults(corporationData['live-results'].url).then(data => {
                     if (data) {
                         setLiveResultsData(data);
+                        setLastUpdateTime(new Date());
+                        setNextUpdateTime(new Date(Date.now() + 60000));
                         // isLiveResultsActive bleibt true, solange der Switch aktiviert ist
                         // Die Spalte wird immer angezeigt, wenn Live-Ergebnisse aktiviert sind
                     }
@@ -749,6 +890,33 @@ function Sidebar({
             }
         }
     }, [liveResultsEnabled, corporationData, fetchLiveResults]);
+
+    // Timer-Effekt für Countdown-Anzeige
+    useEffect(() => {
+        if (isLiveResultsActive && nextUpdateTime) {
+            timerIntervalRef.current = setInterval(() => {
+                const now = new Date();
+                const timeLeft = Math.max(0, nextUpdateTime.getTime() - now.getTime());
+                
+                if (timeLeft === 0) {
+                    // Timer abgelaufen, nächste Aktualisierung in 60 Sekunden
+                    setNextUpdateTime(new Date(now.getTime() + 60000));
+                }
+            }, 1000); // Jede Sekunde aktualisieren
+        } else {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+                timerIntervalRef.current = null;
+            }
+        }
+
+        return () => {
+            if (timerIntervalRef.current) {
+                clearInterval(timerIntervalRef.current);
+                timerIntervalRef.current = null;
+            }
+        };
+    }, [isLiveResultsActive, nextUpdateTime]);
 
     // Konvertiere Live-Ergebnisse zu Parteien-Prozenten
     useEffect(() => {
@@ -921,6 +1089,8 @@ function Sidebar({
                 isLiveResultsAvailable={isLiveResultsAvailable}
                 isLiveResultsActive={isLiveResultsActive}
                 isLoading={isLoadingLiveResults}
+                nextUpdateTime={nextUpdateTime}
+                lastUpdateTime={lastUpdateTime}
             />
 
             {liveResultsError && (
