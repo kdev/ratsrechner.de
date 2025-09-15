@@ -30,99 +30,99 @@
     },
     "districts": [
         {
-            "number": 1,
+            "number": 7010,
             "name": "Mitte"
         },
         {
-            "number": 2,
+            "number": 7020,
             "name": "Mitte"
         },
         {
-            "number": 3,
+            "number": 7030,
             "name": "Mitte"
         },
         {
-            "number": 4,
+            "number": 7040,
             "name": "Ost"
         },
         {
-            "number": 5,
+            "number": 7050,
             "name": "Ost"
         },
         {
-            "number": 6,
+            "number": 7060,
             "name": "Mitte-Süd"
         },
         {
-            "number": 7,
+            "number": 7070,
             "name": "Mitte-Süd"
         },
         {
-            "number": 8,
+            "number": 7080,
             "name": "Süd"
         },
         {
-            "number": 9,
+            "number": 7090,
             "name": "West-Felderhof"
         },
         {
-            "number": 10,
+            "number": 7100,
             "name": "West-Volkardey"
         },
         {
-            "number": 11,
+            "number": 7110,
             "name": "West-Mitte"
         },
         {
-            "number": 12,
+            "number": 7120,
             "name": "West"
         },
         {
-            "number": 13,
+            "number": 7130,
             "name": "Tiefenbroich-Süd"
         },
         {
-            "number": 14,
+            "number": 7140,
             "name": "Tiefenbroich-Nord"
         },
         {
-            "number": 15,
+            "number": 7150,
             "name": "Lintorf-Süd"
         },
         {
-            "number": 16,
+            "number": 7160,
             "name": "Lintorf"
         },
         {
-            "number": 17,
+            "number": 7170,
             "name": "Lintorf"
         },
         {
-            "number": 18,
+            "number": 7180,
             "name": "Lintorf-Nord"
         },
         {
-            "number": 19,
+            "number": 7190,
             "name": "Lintorf / Breitscheid"
         },
         {
-            "number": 20,
+            "number": 7200,
             "name": "Hösel-Nord"
         },
         {
-            "number": 21,
+            "number": 7210,
             "name": "Hösel-Süd"
         },
         {
-            "number": 22,
+            "number": 7220,
             "name": "Hösel / Eggerscheidt"
         },
         {
-            "number": 23,
+            "number": 7230,
             "name": "Homberg / Schwarzbach / Meiersberg / Ost"
         },
         {
-            "number": 24,
+            "number": 7240,
             "name": "Homberg"
         }
     ],
@@ -544,7 +544,7 @@
             "identifier": "bu",
             "short": "BU",
             "name": "Bürger Union",
-            "colorcode": "#000088",
+            "colorcode": "#2F3A89",
             "districts-candidates": [
                 {
                     "district-number": 7010,
