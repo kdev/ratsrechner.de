@@ -540,7 +540,7 @@ const CorporationInfo = React.memo(({
                 </Typography>
             )}
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                Gesetzliche Sitzzahl: {corporationData['cuncil-seats']}
+                Gesetzliche Sitzzahl: {corporationData['council-seats']}
             </Typography>
         </Box>
     )
@@ -562,14 +562,14 @@ const SeatSummary = React.memo(({
                 Sitzverteilung ({seatAllocation.name}):
             </Typography>
             <Typography variant="body2">
-                Insgesamt verteilt: {totalAllocatedSeats + successfulIndependents} von {corporationData['cuncil-seats']} Sitzen
+                Insgesamt verteilt: {totalAllocatedSeats + successfulIndependents} von {corporationData['council-seats']} Sitzen
                 {successfulIndependents > 0 && ` (davon ${successfulIndependents} Einzelbewerber)`}
             </Typography>
 
             {/* Zeige Hinweis zu Überhangmandaten, wenn Rock-Verfahren verwendet wird */}
-            {seatAllocation && seatAllocation.key === 'rock' && totalAllocatedSeats + successfulIndependents > corporationData['cuncil-seats'] && (
+            {seatAllocation && seatAllocation.key === 'rock' && totalAllocatedSeats + successfulIndependents > corporationData['council-seats'] && (
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                    Inkl. {totalAllocatedSeats + successfulIndependents - corporationData['cuncil-seats']} Ausgleichsmandate
+                    Inkl. {totalAllocatedSeats + successfulIndependents - corporationData['council-seats']} Ausgleichsmandate
                 </Typography>
             )}
         </Paper>
@@ -997,7 +997,7 @@ function Sidebar({
             return {};
         }
 
-        const totalSeats = corporationData['cuncil-seats'];
+        const totalSeats = corporationData['council-seats'];
         const method = seatAllocation.key;
 
         // Berechne die Anzahl der erfolgreichen Einzelbewerber
@@ -1040,7 +1040,7 @@ function Sidebar({
     }, [isLiveResultsActive, livePartyPercentages, totalPercentage]);
 
     // Berechne die Anzahl der Wahlkreise (Direktmandate) - die Hälfte der regulären Ratssitze
-    const numDirectSeats = corporationData ? Math.floor(corporationData['cuncil-seats'] / 2) : 0;
+    const numDirectSeats = corporationData ? Math.floor(corporationData['council-seats'] / 2) : 0;
 
     // Berechne die Gesamtzahl der gewonnenen Wahlkreise
     const totalDirectMandates = useMemo(() => {
