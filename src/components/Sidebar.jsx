@@ -1,8 +1,8 @@
 // src/components/Sidebar.jsx
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { calculateSeats, calculateDistrictWinners } from '../utils/seatAllocation';
-import SeatDistributionChart from './SeatDistributionChart';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getElectedCandidates } from '../utils/electionHelpers';
+import { calculateSeats } from '../utils/seatAllocation';
+import SeatDistributionChart from './SeatDistributionChart';
 
 // Timer-Gauge-Komponente für Live-Ergebnisse
 const LiveResultsTimer = ({ nextUpdateTime, lastUpdateTime }) => {
@@ -129,34 +129,32 @@ const LiveResultsTimer = ({ nextUpdateTime, lastUpdateTime }) => {
     );
 };
 
+import InfoIcon from '@mui/icons-material/Info';
 import {
+    Alert,
+    Autocomplete,
     Box,
-    Typography,
+    Card,
+    CardContent,
+    Chip,
+    CircularProgress,
     FormControl,
+    FormControlLabel,
+    IconButton,
+    InputAdornment,
     InputLabel,
-    Select,
-    MenuItem,
-    TextField,
-    Paper,
     List,
     ListItem,
     ListItemText,
-    Chip,
-    Divider,
-    Tooltip,
-    IconButton,
-    Badge,
+    MenuItem,
+    Paper,
     Popover,
-    Card,
-    CardContent,
-    Alert,
-    InputAdornment,
-    Autocomplete,
+    Select,
     Switch,
-    FormControlLabel,
-    CircularProgress
+    TextField,
+    Tooltip,
+    Typography
 } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
 import { debounce } from 'lodash';
 
 // Memoized Party-Listenelement für bessere Performance
@@ -823,7 +821,7 @@ function Sidebar({
 
                 // Setze die Werte aus den Umfrageergebnissen
                 Object.keys(pollResults).forEach(partyId => {
-                    if (initialPercentages.hasOwnProperty(partyId)) {
+                    if (Object.prototype.hasOwnProperty.call(initialPercentages, partyId)) {
                         initialPercentages[partyId] = pollResults[partyId].toString();
                     }
                 });
@@ -1034,7 +1032,7 @@ function Sidebar({
     // Berechne die Gesamtprozente basierend auf Live-Ergebnissen oder manuellen Eingaben
     const effectiveTotalPercentage = useMemo(() => {
         if (isLiveResultsActive && Object.keys(livePartyPercentages).length > 0) {
-            return Object.values(livePartyPercentages).reduce((sum, val) => sum + parseFloat(val || 0), 0);
+            return Object.values(livePartyPercentages).reduce((sum, val) => sum + parseFloat(val || 0).toPrecision(7), 0);
         }
         return totalPercentage;
     }, [isLiveResultsActive, livePartyPercentages, totalPercentage]);
