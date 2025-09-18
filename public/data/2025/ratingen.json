@@ -126,7 +126,26 @@
             "name": "Homberg"
         }
     ],
-    "results": {},
+    "results": {
+        "title": "Wahlergebnis der Kommunalwahl 2025 in Ratingen",
+        "source": "https://wahlen.regioit.de/3/km2025/05158028/daten/opendata/Open-Data-05158028-Ratswahl-Wahlbezirk.csv",
+        "mappings": {
+            "district-column": "gebiet-nr",
+            "reports-column": "anz-schnellmeldungen",
+            "reports-max-column": "max-schnellmeldungen",
+            "votes-total-valid-column": "D",
+            "party-mapping": {
+                "cdu": "D1",
+                "greens": "D2",
+                "buergerunion": "D3",
+                "spd": "D4",
+                "fdp": "D5",
+                "afd": "D6",
+                "the-party": "D7",
+                "left": "D8"
+            }
+        }
+    },
     "parties": [
         {
             "identifier": "cdu",
